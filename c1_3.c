@@ -8,7 +8,7 @@ int max(int x, int y, int z) {
     return s;
 }
 
-int main() {
+int v() {
 
     printf("Type the numbers that you want to compare (format a,b,c): \n");
 
