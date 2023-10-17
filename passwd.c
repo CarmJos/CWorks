@@ -1,6 +1,4 @@
-
 #include <stdio.h>
-
 #define OFFSET 4
 
 char offset(char input) {
