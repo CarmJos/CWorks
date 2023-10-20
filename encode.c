@@ -7,8 +7,9 @@ char offset(char input) {
 }
 
 int main() {
+
     printf("Please input the code that want to offset:\n");
-    
+
     char c1 = getchar();
     char c2 = getchar();
     char c3 = getchar();
