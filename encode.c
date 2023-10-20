@@ -1,22 +1,28 @@
 #include <stdio.h>
 
+#define OFFSET 4
+
+char offset(char input) {
+    return (char) (input + OFFSET);
+}
+
 int main() {
+    printf("Please input the code that want to offset:\n");
+    
+    char c1 = getchar();
+    char c2 = getchar();
+    char c3 = getchar();
+    char c4 = getchar();
+    char c5 = getchar();
 
-    char c1 = 'C', c2 = 'h', c3 = 'i', c4 = 'n', c5 = 'a';
-    c1 = c1 + 4;
-    c2 = c2 + 4;
-    c3 = c3 + 4;
-    c4 = c4 + 4;
-    c5 = c5 + 4;
-
-    printf("%c%c%c%c%c", c1, c2, c3, c4, c5);
-
+    putchar(offset(c1));
+    putchar(offset(c2));
+    putchar(offset(c3));
+    putchar(offset(c4));
+    putchar(offset(c5));
     printf("\n");
-    putchar(c1);
-    putchar(c2);
-    putchar(c3);
-    putchar(c4);
-    putchar(c5);
+
+    printf("%c%c%c%c%c", offset(c1), offset(c2), offset(c3), offset(c4), offset(c5));
 
     return 0;
 }
