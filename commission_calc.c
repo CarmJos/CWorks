@@ -24,6 +24,7 @@ double calculateByIf(int total) {
 }
 
 double calculateBySwitch(int total) {
+    if (total <= 0) return 0;
     // (left,right] required to minus 1 to prevent issues.
     switch ((total - 1) / unit) {
         case 0:
