@@ -8,12 +8,13 @@ int main() {
     scanf("%d", &score);
 
     if (score < 0 || score > 100) {
-        printf("Not a illegal score.");
+        printf("Illegal score.");
         return 0;
     }
 
     int level = score / 10;
     switch (level) {
+        case 10:
         case 9:
             printf("A");
             break;
