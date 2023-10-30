@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-const int unit = 100000;
+const int UNIT = 100000;
 
 double calcCommission(int total, int left, int right, double ratio) {
     if (total < left) return 0;
@@ -9,7 +9,7 @@ double calcCommission(int total, int left, int right, double ratio) {
 }
 
 double calcCommissionWithUnit(int total, int left, int right, double ratio) {
-    return calcCommission(total, left * unit, right * unit, ratio);
+    return calcCommission(total, left * UNIT, right * UNIT, ratio);
 }
 
 double calculateByIf(int total) {
@@ -26,24 +26,24 @@ double calculateByIf(int total) {
 double calculateBySwitch(int total) {
     if (total <= 0) return 0;
     // (left,right] required to minus 1 to prevent issues.
-    switch ((total - 1) / unit) {
+    switch ((total - 1) / UNIT) {
         case 0:
             return total * 0.1;
         case 1:
-            return 10000 + (total - unit * 1) * 0.075;
+            return 10000 + (total - UNIT * 1) * 0.075;
         case 2:
         case 3:
-            return 17500 + (total - unit * 2) * 0.05;
+            return 17500 + (total - UNIT * 2) * 0.05;
         case 4:
         case 5:
-            return 27500 + (total - unit * 4) * 0.03;
+            return 27500 + (total - UNIT * 4) * 0.03;
         case 6:
         case 7:
         case 8:
         case 9:
-            return 33500 + (total - unit * 6) * 0.015;
+            return 33500 + (total - UNIT * 6) * 0.015;
         default:
-            return 39500 + (total - unit * 10) * 0.01;
+            return 39500 + (total - UNIT * 10) * 0.01;
     }
 }
 
