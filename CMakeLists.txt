@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.26)
 project(CWorks C)
 
+# 使用此CMakeList时，若要新建C语言文件，请按照以下步骤：
+# 1. 右键根目录——新建——C/C++源文件
+# 2. 在弹出的对话框中，输入文件名(英文小写及下划线)，后缀为 ".c"，不要勾选“添加到目标”，点击确定。
+# 3. 点击 左上角横线——文件——重新加载CMake项目 。
+
 # 按照书本要求设定C语言版本
 set(CMAKE_C_STANDARD 99)
 
@@ -15,5 +20,5 @@ file(GLOB_RECURSE files *.c */*.c *.cpp */*.cpp)
 foreach (file ${files})
     string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
     add_executable(${exe} ${file})
-    message(\ \ \ \ --\ src/${exe}.cpp\ will\ be\ compiled\ to\ runtime/${exe})
+    message(\ \ \ \ --\ src/${exe}.c\ will\ be\ compiled\ to\ \'runtime/${exe}.exe\')
 endforeach ()
