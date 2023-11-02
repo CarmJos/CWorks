@@ -1,4 +1,4 @@
 /cmake-build-debug/
-/runtime/
-/archive/
-/library/
+/.runtime/
+/.archive/
+/.library/
