@@ -16,9 +16,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/.runtime)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/.path)
 
 # 遍历项目根目录下所有的 .c 文件，自动添加
-file(GLOB_RECURSE files *.c */*.c)
+file(GLOB_RECURSE files *.c **/*.c)
 foreach (file ${files})
     string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
     add_executable(${exe} ${file})
-    message(\ \ \ \ --\ src/${exe}.c\ will\ be\ compiled\ to\ \'.runtime/${exe}.exe\')
+    message(\ \ \ \ --\ \[${exe}.c\]\ will\ be\ compiled\ to\ \'.runtime/${exe}.exe\')
 endforeach ()
