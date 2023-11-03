@@ -8,7 +8,7 @@ void swap(int *x, int *y) {
 
 int main() {
 
-    int a, b, c, t;
+    int a, b, c;
     printf("Please input 3 numbers(split by space): \n");
     scanf("%d %d %d", &a, &b, &c);
 
