@@ -12,7 +12,7 @@
 ```cmake
 
 # 按照书本要求设定C语言版本
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 20)
 
 # 设定构建运行路径，避免污染根目录
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/.archive)
