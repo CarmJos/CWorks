@@ -21,7 +21,6 @@ int main() {
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            char playerB = teamB[j];
             if (contains(opponents, 3, teamB[j])) continue;
             if (teamA[i] == 'C' && (teamB[j] == 'Z' || teamB[j] == 'X')) continue;
             if (teamA[i] == 'A' && teamB[j] == 'X') continue;
