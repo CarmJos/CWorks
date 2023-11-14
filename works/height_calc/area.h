@@ -1,4 +1,7 @@
 // Defined a struct of point, and named it Point(x,y).
+#ifndef AREA_H
+#define AREA_H
+
 typedef struct point {
     double x;
     double y;
@@ -23,3 +26,4 @@ double distanceSquared(Point p1, Point p2) {
 int isInside(Point point, Circle circle) {
     return distanceSquared(point, circle.center) < square(circle.radius);
 }
+#endif // AREA_H
