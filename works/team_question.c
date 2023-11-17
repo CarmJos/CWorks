@@ -14,6 +14,13 @@ bool contains(const char *arr, int len, char c) {
     return false;
 }
 
+bool full(const char *arr, int len) {
+    for (int i = 0; i < len; ++i) {
+        if (arr[i] == '0') return false;
+    }
+    return true;
+}
+
 int main() {
     char opponents[3] = {'0', '0', '0'};
     char teamA[3] = {'C', 'A', 'B'};
@@ -21,14 +28,15 @@ int main() {
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            if (contains(opponents, 3, teamB[j])) continue;
-            if (teamA[i] == 'C' && (teamB[j] == 'Z' || teamB[j] == 'X')) continue;
-            if (teamA[i] == 'A' && teamB[j] == 'X') continue;
-            opponents[i] = teamB[j];
+            if (full(opponents, 3)) break; // All players have been assigned, break!
+            if (contains(opponents, 3, teamB[j])) continue; // The player has been assigned.
+            if (teamA[i] == 'C' && (teamB[j] == 'Z' || teamB[j] == 'X')) continue; // C not vs X,Z
+            if (teamA[i] == 'A' && teamB[j] == 'X') continue; // A not vs X
+            opponents[i] = teamB[j]; // Assign the player.
         }
     }
 
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i) { // Print the result.
         printf("Team1 %c vs Team2 %c\n", teamA[i], opponents[i]);
     }
 
