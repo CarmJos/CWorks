@@ -1,31 +1,36 @@
 #include <stdio.h>
 
 
-// function to connect 2 char array with space
-void str_conn(char* str1, char* str2) {
+// function to connect 2 char array with space without \n
+void str_conn(char* str, const char* str1, const char connector) {
     int i = 0;
-    while (str1[i] != '\0') {
+    while (str[i] != '\0') {
         i++;
     }
-    str1[i] = ' ';
-    i++;
     int j = 0;
-    while (str2[j] != '\0') {
-        str1[i] = str2[j];
-        i++;
+    while (str1[j] != '\0') {
+        if (str1[j] != '\n') {
+            str[i] = str1[j];
+            i++;
+        }
         j++;
     }
+    str[i] = connector;
 }
 
 int main() {
-    char str1[20] = {0};
-    char str2[20] = {0};
+    char str1[50] = {0};
+    char str2[50] = {0};
 
     printf("Input 2 parts of char array: \n");
-    scanf("%s %s", str1, str2);
-    str_conn(str1, str2);
+    fgets(str1, 50,stdin);
+    fgets(str2, 50,stdin);
 
-    printf("Final content ->  %s", str1);
+    char str[100] = {0};
+    str_conn(str, str1, ' ');
+    str_conn(str, str2, ' ');
+
+    printf("Final content ->  %s", str);
 
     return 0;
 }
