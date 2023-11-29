@@ -2,17 +2,16 @@
 
 #include <stdio.h>
 
-int count(char *str, char start, char end) {
-    int cnt = 0;
-    while (*str != '\0') {
-        if (*str >= start && *str <= end) {
-            cnt++;
+static int count(const char* input, const char start, const char end) {
+    int i = 0;
+    while (*input != '\0') {
+        if (*input >= start && *input <= end) {
+            i++;
         }
-        str++;
+        input++;
     }
-    return cnt;
+    return i;
 }
-
 
 int main() {
     char article[3][80] = {0};
@@ -25,7 +24,7 @@ int main() {
     for (int i = 0; i < 3; ++i) {
         upper += count(article[i], 'A', 'Z');
         lower += count(article[i], 'a', 'z');
-        space += count(article[i], ' ', ' ');
+        space += count(article[i], ' ',' ');
         digit += count(article[i], '0', '9');
         other += count(article[i], '\0', '\377');
     }

@@ -2,7 +2,6 @@
 
 
 int main() {
-
     int score;
     printf("Please input the score: \n");
     scanf("%d", &score);

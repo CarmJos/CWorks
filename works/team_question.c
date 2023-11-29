@@ -7,7 +7,7 @@
 // C not vs X,Z
 // Print 3 pairs of players that can play against each other.
 
-bool contains(const char *arr, int len, char c) {
+static bool contains(const char* arr, int len, char c) {
     for (int i = 0; i < len; ++i) {
         if (arr[i] == c) return true;
     }
