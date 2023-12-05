@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-static inline long long int calc(long long int n) {
+static long long int calc(long long int n) {
     return n <= 2 ? 1 : calc(n - 1) + calc(n - 2);
 }
 
