@@ -8,7 +8,11 @@ int main() {
     int v;
     printf("Please input the number: \n");
     scanf("%d", &v);
-    printf("Result -> %lld", calc(v));
+    for (int i = 1; i <= v; ++i) {
+        printf("%lld", calc(i));
+        if (i % 5 == 0) printf("\n");
+        else if (i != v) printf("\t");
+    }
     return 0;
 }
 
