@@ -31,7 +31,7 @@ void change(const double price, const double paid) {
 
     for (int i = 0; i < 12; i++) {
         if (amount[i] <= 0)continue;
-        printf("# CNY %d × %d\n", DENOMINATIONS[i] / 100, amount[i]);
+        printf("# CNY %.2f × %d\n", DENOMINATIONS[i] / 100.0, amount[i]);
     }
 }
 
@@ -40,6 +40,7 @@ int main() {
     double price, paid;
     printf("Please input the price: ");
     scanf("%lf", &price);
+    printf("\n");
     printf("Please input the paid: ");
     scanf("%lf", &paid);
     printf("\n");
