@@ -9,10 +9,7 @@ static const int DENOMINATIONS[] = {
     500, 200, 100, // 5元, 2元, 1元
     50, 20, 10, 5, 2, 1 // 5角, 2角, 1角, 5分, 2分, 1分
 };
-
-static int size_of_denominations() {
-    return sizeof(DENOMINATIONS) / sizeof(int);
-}
+static const int DENOMINATIONS_SIZE = sizeof(DENOMINATIONS) / sizeof(int);
 
 void change(const double price, const double paid) {
     const double change = paid - price; // 计算须找零金额
@@ -25,16 +22,16 @@ void change(const double price, const double paid) {
     int remain = (int)(change * 100); // 以分为单位的找零金额
 
     // 从大面额开始找零，循环每一个面额
-    for (int i = 0; i < size_of_denominations(); i++) {
+    for (int i = 0; i < DENOMINATIONS_SIZE; i++) {
         if (remain == 0) break; // 找零完成，退出循环
 
         const int denomination = DENOMINATIONS[i]; // 当前正在处理的面额
         const int amount = remain / denomination; // 当前面额的张数
 
-        if (amount > 0) {
-            remain -= amount * denomination; // 扣除已找零的金额
-            printf("# CNY %.2f × %d\n", denomination / 100.0, amount);
-        }
+        if (amount == 0) continue;
+
+        remain -= amount * denomination; // 扣除已找零的金额
+        printf("# CNY %.2f × %d\n", denomination / 100.0, amount);
     }
 }
 
