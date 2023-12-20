@@ -26,15 +26,13 @@ void change(const double price, const double paid) {
 
     // 从大面额开始找零，循环每一个面额
     for (int i = 0; i < size_of_denominations(); i++) {
-        const int denomination = DENOMINATIONS[i]; // 当前正在处理的面额
-        int amount = 0; // 当前面额的张数
+        if (remain == 0) break; // 找零完成，退出循环
 
-        while (remain >= denomination) {
-            remain -= denomination; // 扣除当前面额的金额
-            amount++; // 此面额的对应张数加一
-        }
+        const int denomination = DENOMINATIONS[i]; // 当前正在处理的面额
+        const int amount = remain / denomination; // 当前面额的张数
 
         if (amount > 0) {
+            remain -= amount * denomination; // 扣除已找零的金额
             printf("# CNY %.2f × %d\n", denomination / 100.0, amount);
         }
     }
