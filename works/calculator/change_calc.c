@@ -12,14 +12,12 @@ static const int DENOMINATIONS[] = {
 static const int DENOMINATIONS_SIZE = sizeof(DENOMINATIONS) / sizeof(int);
 
 void change(const double price, const double paid) {
-    const double change = paid - price; // 计算须找零金额
-    if (change <= 0) {
+    int remain = (int)((paid - price) * 100); // 计算以分为单位的找零金额
+    if (remain <= 0) {
         printf("付款不足或无需找零。\n");
         return;
     }
-    printf("共需找零: %.2lf\n", change);
-
-    int remain = (int)(change * 100); // 以分为单位的找零金额
+    printf("共需找零: %.2lf\n", remain / 100.0);
 
     // 从大面额开始找零，循环每一个面额
     for (int i = 0; i < DENOMINATIONS_SIZE; i++) {
