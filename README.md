@@ -11,6 +11,7 @@ via email [**carm@carm.cc**](mailto:carm@carm.cc) or [issues](https://github.com
 
 - [Setting for C](.doc/SETTINGS_C.md)
 - [Setting for C++](.doc/SETTINGS_CPP.md)
+- [Name rules for C](.doc/NAME_RULES.md)
 
 ## Open Source Licence
 
