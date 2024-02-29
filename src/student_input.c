@@ -23,15 +23,9 @@ int main() {
     printf("\nname: ");
     scanf("%s", p->name);
 
+    getchar();
     printf("\nsex (0=female,1=male): ");
-    int sexNum;
-    scanf("%d", &sexNum);
-    if (sexNum == 1) {
-        // Set p sex to male
-        p->sex = 'M';
-    } else {
-        p->sex = 'F';
-    }
+    scanf("%c", &p->sex);
 
     printf("\nage: ");
     scanf("%d", &p->age);
@@ -48,6 +42,6 @@ int main() {
             "| %d \t| %s \t| %c \t| %d \t| %.2f \t| %s \t|\n",
             p->num, p->name, p->sex, p->age, p->score, p->addr
     );
-    
+
     return 0;
 }
