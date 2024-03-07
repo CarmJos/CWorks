@@ -89,7 +89,7 @@
 - begin/end
 - create/destroy
 - insert/delete
-- first/last
+- first/size
 - get/release
 - increment/decrement
 - put/get
