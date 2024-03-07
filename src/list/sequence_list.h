@@ -9,8 +9,8 @@ typedef struct {
     int last;
 } SeqList;
 
-// Create a empty list
-SeqList *SeqList_create() {
+// Create an empty list
+SeqList *sl_create() {
     SeqList *list;
     list = malloc(sizeof(SeqList));
     list->last = 0;
@@ -18,7 +18,7 @@ SeqList *SeqList_create() {
 }
 
 // Put the whole array into the list, return success or not.
-bool SeqList_put(SeqList *l, const int *array, int length) {
+bool sl_put(SeqList *l, const int *array, int length) {
     if (length > MAXSIZE) {
         return false;
     }
@@ -30,7 +30,7 @@ bool SeqList_put(SeqList *l, const int *array, int length) {
 }
 
 // Check if the list is empty, return success or not.
-bool SeqList_empty(SeqList *l) {
+bool sl_empty(SeqList *l) {
     if (l->last == 0)
         return true;
     else
@@ -38,13 +38,13 @@ bool SeqList_empty(SeqList *l) {
 }
 
 // Out print the whole list
-void SeqList_print(SeqList *l) {
+void sl_print(SeqList *l) {
     for (int i = 0; i < l->last; i++)
         printf("%d ", (l->data[i]));
 }
 
 // Get the index of the target, -1 if not contains
-int SeqList_index(SeqList *l, int target) {
+int sl_index(SeqList *l, int target) {
     for (int i = 0; i < l->last; i++) {
         if (l->data[i] == target) {
             return i + 1;
@@ -54,7 +54,7 @@ int SeqList_index(SeqList *l, int target) {
 }
 
 // Check if the target contains in the list, return success or not.
-bool SeqList_contains(SeqList *l, int target) {
+bool sl_contains(SeqList *l, int target) {
     for (int i = 0; i < l->last; i++) {
         if (l->data[i] == target) {
             return true;
@@ -64,7 +64,7 @@ bool SeqList_contains(SeqList *l, int target) {
 }
 
 // Get the index of the index to result, return success or not.
-bool SeqList_get(SeqList *list, int index, int *result) {
+bool sl_get(SeqList *list, int index, int *result) {
     if (index < 1 || index > list->last) {
         return false;
     } else {
@@ -74,12 +74,12 @@ bool SeqList_get(SeqList *list, int index, int *result) {
 }
 
 // Insert the element into the target index, return success or not.
-bool SeqList_insert(SeqList *list, int index, int element) {
-    if (list->last >= MAXSIZE) {
+bool sl_insert(SeqList *list, int index, int element) {
+    if (list->last >= MAXSIZE - 1) {
         return false; // Full
     }
 
-    if (index < 1 || index > list->last) {
+    if (index < 0 || index > list->last) {
         return false; // Wrong index
     }
 
@@ -94,7 +94,7 @@ bool SeqList_insert(SeqList *list, int index, int element) {
 }
 
 // Remove the element at the index, return success or not.
-bool SeqList_remove(SeqList *list, int index, int *deleted) {
+bool sl_remove(SeqList *list, int index, int *deleted) {
     if (list->last == 0) {
         return false;
     }
@@ -111,12 +111,12 @@ bool SeqList_remove(SeqList *list, int index, int *deleted) {
 }
 
 // Clear the list, make it empty
-void SeqList_clear(SeqList *l) {
+void sl_clear(SeqList *l) {
     l->last = 0;
 }
 
 // Set the element at the index, return success or not.
-bool SeqList_set(SeqList *l, int index, int element) {
+bool sl_set(SeqList *l, int index, int element) {
     if (index > l->last || index < 1) {
         return false;
     }
