@@ -23,7 +23,7 @@
 > 而类名单词首字母大写不用分隔符,如 `class MyDateClass`；
 > 类的成员数据和方法的首单词首字母小写后面的单词首字母大写 如 `int superValue`。
 > 
-> JAVA的代码风格就是大致如此。
+> JAVA的代码风格就是大致如此。[可以直接看看我的项目实例来了解。](https://github.com/CarmJos/EasySQL/blob/52dcd71c5ba6f08d179ad78467a5a331ba47e1b1/api/src/main/java/cc/carm/lib/easysql/api/SQLManager.java)
 
 ## 特定情况
 
