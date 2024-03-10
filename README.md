@@ -1,9 +1,12 @@
-# CWorks
+# CWorks (Homework & Notes)
 
 This project is used to store and display my personal works and results
 when learning following courses:
-- "**C Language Programming**" 4th Edition (written by _Tan Haoqiang_ / _Tsinghua University Press_)
+- "**C Primer Plus (Developer's Library)**" 6th Edition (by _Stephen Prata_)
+- "**C Language Programming**" 4th Edition (by _Tan Haoqiang_ / _Tsinghua University Press_)
 - "**Data Structures (C Language)**" 4th Edition  (_Tsinghua University Press_)
+
+If you are also learning C language, I highly recommend you to refer to the book "**C Primer Plus**" by _Stephen Prata_.
 
 Any questions or suggestions are welcome to contact me 
 via email [**carm@carm.cc**](mailto:carm@carm.cc) or [issues](https://github.com/CarmJos/CWorks/issues/new) .
