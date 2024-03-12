@@ -2,3 +2,4 @@
 /.runtime/
 /.archive/
 /.library/
+*.exe
