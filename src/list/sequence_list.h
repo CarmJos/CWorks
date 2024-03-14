@@ -11,7 +11,7 @@ typedef struct {
 } SeqList;
 
 // Create an empty list
-SeqList *sl_create() {
+static SeqList *sl_create() {
     SeqList *list = (SeqList *) malloc(sizeof(SeqList));
     list->data = (int *) malloc(INITIATE_SIZE * sizeof(int));
     list->size = 0;
@@ -20,7 +20,7 @@ SeqList *sl_create() {
 }
 
 // Expand the list's capacity
-void sl_expand(SeqList *l) {
+static void sl_expand(SeqList *l) {
     int *new_data = (int *) malloc(l->capacity * 2 * sizeof(int));
     for (int i = 0; i < l->size; i++) {
         new_data[i] = l->data[i];
@@ -31,7 +31,7 @@ void sl_expand(SeqList *l) {
 }
 
 // Shrink the list's capacity
-void sl_shrink(SeqList *l, int amount) {
+static void sl_shrink(SeqList *l, int amount) {
     int after = l->capacity - amount;
     int *new_data = (int *) malloc(after * sizeof(int));
     l->size = l->size > after ? after : l->size;
@@ -44,7 +44,7 @@ void sl_shrink(SeqList *l, int amount) {
 }
 
 // Put the whole array into the list, return success or not.
-bool sl_put(SeqList *l, const int *array, int length) {
+static bool sl_put(SeqList *l, const int *array, int length) {
     while (length > l->capacity) {
         sl_expand(l); // Expand the list
     }
@@ -57,18 +57,18 @@ bool sl_put(SeqList *l, const int *array, int length) {
 }
 
 // Check if the list is empty, return success or not.
-bool sl_empty(SeqList *l) {
+static bool sl_empty(SeqList *l) {
     return l->size == 0;
 }
 
 // Out print the whole list
-void sl_print(SeqList *l) {
+static void sl_print(SeqList *l) {
     for (int i = 0; i < l->size; i++)
         printf("%d ", (l->data[i]));
 }
 
 // Get the index of the target, -1 if not contains
-int sl_index(SeqList *l, int target) {
+static int sl_index(SeqList *l, int target) {
     for (int i = 0; i < l->size; i++) {
         if (l->data[i] == target) {
             return i + 1;
@@ -78,7 +78,7 @@ int sl_index(SeqList *l, int target) {
 }
 
 // Check if the target contains in the list, return success or not.
-bool sl_contains(SeqList *l, int target) {
+static bool sl_contains(SeqList *l, int target) {
     for (int i = 0; i < l->size; i++) {
         if (l->data[i] == target) {
             return true;
@@ -88,7 +88,7 @@ bool sl_contains(SeqList *l, int target) {
 }
 
 // Get the index of the index to result, return success or not.
-bool sl_get(SeqList *list, int index, int *result) {
+static bool sl_get(SeqList *list, int index, int *result) {
     if (index < 1 || index > list->size) {
         return false;
     } else {
@@ -98,7 +98,7 @@ bool sl_get(SeqList *list, int index, int *result) {
 }
 
 // Add the element to the list, return success or not.
-bool sl_add(SeqList *list, int element) {
+static bool sl_add(SeqList *list, int element) {
     if (list->size >= list->capacity) {
         sl_expand(list);
     }
@@ -110,7 +110,7 @@ bool sl_add(SeqList *list, int element) {
 }
 
 // Insert the element into the target index, return success or not.
-bool sl_insert(SeqList *list, int index, int element) {
+static bool sl_insert(SeqList *list, int index, int element) {
     if (list->size >= list->capacity) {
         sl_expand(list);
     }
@@ -135,7 +135,7 @@ bool sl_insert(SeqList *list, int index, int element) {
 }
 
 // Remove the element at the index, return success or not.
-bool sl_remove(SeqList *list, int index) {
+static bool sl_remove(SeqList *list, int index) {
     if (list->size == 0) {
         return false;
     }
@@ -156,7 +156,7 @@ bool sl_remove(SeqList *list, int index) {
 }
 
 // Remove the element at the index, return success or not.
-bool sl_delete(SeqList *list, int index, int *deleted) {
+static bool sl_delete(SeqList *list, int index, int *deleted) {
     if (list->size == 0) {
         return false;
     }
@@ -177,13 +177,13 @@ bool sl_delete(SeqList *list, int index, int *deleted) {
 }
 
 // Clear the list, make it empty
-void sl_clear(SeqList *l) {
+static void sl_clear(SeqList *l) {
     l->size = 0;
     free(l->data);
 }
 
 // Set the element at the index, return success or not.
-bool sl_set(SeqList *l, int index, int element) {
+static bool sl_set(SeqList *l, int index, int element) {
     if (index > l->size || index < 1) {
         return false;
     }
