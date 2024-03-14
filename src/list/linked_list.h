@@ -2,6 +2,7 @@
 #include "stdbool.h"
 #include "malloc.h"
 
+// Linked list (Tail mode)
 typedef struct node {
     int data;
     struct node *next;
@@ -14,27 +15,20 @@ static LinkedList *ll_create() {
     return list;
 }
 
-static LinkedList *ll_node(int data) {
+static LinkedList *ll_node(int data, LinkedList *next) {
     LinkedList *node = (LinkedList *) malloc(sizeof(LinkedList));
     node->data = data;
-    node->next = NULL;
+    node->next = next;
     return node;
 }
 
-// Add a new node to the list
-static void ll_add(LinkedList *l, int data) {
-    LinkedList *new_node = ll_node(data);
-    new_node->next = l->next;
-    l->next = new_node;
-}
-
 // Add a new node to the list's tail
-static void ll_add_tail(LinkedList *l, int data) {
+static void ll_add(LinkedList *l, int data) {
     LinkedList *p = l;
     while (p->next != NULL) {
         p = p->next;
     }
-    LinkedList *new_node = ll_node(data);
+    LinkedList *new_node = ll_node(data, NULL);
     p->next = new_node;
 }
 
@@ -43,6 +37,22 @@ static void ll_delete(LinkedList *l, int data) {
     LinkedList *p = l;
     while (p->next != NULL) {
         if (p->next->data == data) {
+            LinkedList *temp = p->next;
+            p->next = p->next->next;
+            free(temp);
+            return;
+        }
+        p = p->next;
+    }
+}
+
+// Delete a node from the list by index
+static void ll_delete_at(LinkedList *l, int index) {
+    LinkedList *p = l;
+    int i = 0;
+    while (p->next != NULL) {
+        i++;
+        if (i == index) {
             LinkedList *temp = p->next;
             p->next = p->next->next;
             free(temp);
@@ -115,21 +125,22 @@ static bool ll_get(LinkedList *l, int index, int *result) {
     return false;
 }
 
-// Insert the element into the target index
+// Insert the element after the target index, if the index is out of range, insert to the tail
 static bool ll_insert(LinkedList *l, int index, int element) {
     LinkedList *p = l;
     int i = 0;
-    while (p != NULL) {
+    while (p->next != NULL) {
         i++;
         if (i == index) {
-            LinkedList *new_node = ll_node(element);
-            new_node->next = p->next;
+            LinkedList *new_node = ll_node(element, p->next);
             p->next = new_node;
             return true;
         }
         p = p->next;
     }
-    return false;
+    LinkedList *new_node = ll_node(element, NULL);
+    p->next = new_node;
+    return true;
 }
 
 // Remove the element from the list
