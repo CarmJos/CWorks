@@ -28,6 +28,16 @@ static void ll_add(LinkedList *l, int data) {
     l->next = new_node;
 }
 
+// Add a new node to the list's tail
+static void ll_add_tail(LinkedList *l, int data) {
+    LinkedList *p = l;
+    while (p->next != NULL) {
+        p = p->next;
+    }
+    LinkedList *new_node = ll_node(data);
+    p->next = new_node;
+}
+
 // Delete a node from the list
 static void ll_delete(LinkedList *l, int data) {
     LinkedList *p = l;
