@@ -19,42 +19,42 @@
 #include "stdbool.h"
 #include "malloc.h"
 
+#define ELEMENT_TYPE int;
+
 // Linked list (Tail mode)
-typedef struct node {
+typedef struct single_linked_node {
     int data;
-    struct node *next;
-} LinkedList;
+    struct single_linked_node *next;
+} SingleLinkedList;
 
-// Create an empty list
-static LinkedList *ll_create() {
-    LinkedList *list = (LinkedList *) malloc(sizeof(LinkedList));
-    list->next = NULL;
-    return list;
-}
-
-static LinkedList *ll_node(int data, LinkedList *next) {
-    LinkedList *node = (LinkedList *) malloc(sizeof(LinkedList));
+static SingleLinkedList *sll_node(int data, SingleLinkedList *next) {
+    SingleLinkedList *node = (SingleLinkedList *) malloc(sizeof(SingleLinkedList));
     node->data = data;
     node->next = next;
     return node;
 }
 
-// Add a new node to the list's tail
-static void ll_add(LinkedList *l, int data) {
-    LinkedList *p = l;
+// Create an empty list
+static SingleLinkedList *sll_create() {
+    return sll_node(0, NULL);
+}
+
+// Add a new single_linked_node to the list's tail
+static void sll_add(SingleLinkedList *l, int data) {
+    SingleLinkedList *p = l;
     while (p->next != NULL) {
         p = p->next;
     }
-    LinkedList *new_node = ll_node(data, NULL);
+    SingleLinkedList *new_node = sll_node(data, NULL);
     p->next = new_node;
 }
 
-// Delete a node from the list
-static void ll_delete(LinkedList *l, int data) {
-    LinkedList *p = l;
+// Delete a single_linked_node from the list
+static void sll_delete(SingleLinkedList *l, int data) {
+    SingleLinkedList *p = l;
     while (p->next != NULL) {
         if (p->next->data == data) {
-            LinkedList *temp = p->next;
+            SingleLinkedList *temp = p->next;
             p->next = p->next->next;
             free(temp);
             return;
@@ -63,14 +63,14 @@ static void ll_delete(LinkedList *l, int data) {
     }
 }
 
-// Delete a node from the list by index
-static void ll_delete_at(LinkedList *l, int index) {
-    LinkedList *p = l;
+// Delete a single_linked_node from the list by index
+static void sll_delete_at(SingleLinkedList *l, int index) {
+    SingleLinkedList *p = l;
     int i = 0;
     while (p->next != NULL) {
         i++;
         if (i == index) {
-            LinkedList *temp = p->next;
+            SingleLinkedList *temp = p->next;
             p->next = p->next->next;
             free(temp);
             return;
@@ -80,8 +80,8 @@ static void ll_delete_at(LinkedList *l, int index) {
 }
 
 // Print the list
-static void ll_print(LinkedList *l) {
-    LinkedList *p = l->next;
+static void sll_print(SingleLinkedList *l) {
+    SingleLinkedList *p = l->next;
     while (p != NULL) {
         printf("%d ", p->data);
         p = p->next;
@@ -90,18 +90,18 @@ static void ll_print(LinkedList *l) {
 }
 
 // Check if the list is empty
-static bool ll_empty(LinkedList *l) {
+static bool sll_empty(SingleLinkedList *l) {
     return l->next == NULL;
 }
 
-// Get the first node's data
-static int ll_first(LinkedList *l) {
+// Get the first single_linked_node's data
+static int sll_first(SingleLinkedList *l) {
     return l->next->data;
 }
 
-// Get the last node's data
-static int ll_last(LinkedList *l) {
-    LinkedList *p = l;
+// Get the last single_linked_node's data
+static int sll_last(SingleLinkedList *l) {
+    SingleLinkedList *p = l;
     while (p->next != NULL) {
         p = p->next;
     }
@@ -109,8 +109,8 @@ static int ll_last(LinkedList *l) {
 }
 
 // Get the index of the target, -1 if not contains
-static int ll_index(LinkedList *l, int target) {
-    LinkedList *p = l->next;
+static int sll_index(SingleLinkedList *l, int target) {
+    SingleLinkedList *p = l->next;
     int index = 0;
     while (p != NULL) {
         index++;
@@ -123,13 +123,13 @@ static int ll_index(LinkedList *l, int target) {
 }
 
 // Check if the target contains in the list
-static bool ll_contains(LinkedList *l, int target) {
-    return ll_index(l, target) != -1;
+static bool sll_contains(SingleLinkedList *l, int target) {
+    return sll_index(l, target) != -1;
 }
 
 // Get the index of the index to result
-static bool ll_get(LinkedList *l, int index, int *result) {
-    LinkedList *p = l->next;
+static bool sll_get(SingleLinkedList *l, int index, int *result) {
+    SingleLinkedList *p = l->next;
     int i = 0;
     while (p != NULL) {
         i++;
@@ -143,29 +143,29 @@ static bool ll_get(LinkedList *l, int index, int *result) {
 }
 
 // Insert the element after the target index, if the index is out of range, insert to the tail
-static bool ll_insert(LinkedList *l, int index, int element) {
-    LinkedList *p = l;
+static bool sll_insert(SingleLinkedList *l, int index, int element) {
+    SingleLinkedList *p = l;
     int i = 0;
     while (p->next != NULL) {
         i++;
         if (i == index) {
-            LinkedList *new_node = ll_node(element, p->next);
+            SingleLinkedList *new_node = sll_node(element, p->next);
             p->next = new_node;
             return true;
         }
         p = p->next;
     }
-    LinkedList *new_node = ll_node(element, NULL);
+    SingleLinkedList *new_node = sll_node(element, NULL);
     p->next = new_node;
     return true;
 }
 
 // Remove the element from the list
-static bool ll_remove(LinkedList *l, int element) {
-    LinkedList *p = l;
+static bool sll_remove(SingleLinkedList *l, int element) {
+    SingleLinkedList *p = l;
     while (p->next != NULL) {
         if (p->next->data == element) {
-            LinkedList *temp = p->next;
+            SingleLinkedList *temp = p->next;
             p->next = p->next->next;
             free(temp);
             return true;
@@ -173,4 +173,32 @@ static bool ll_remove(LinkedList *l, int element) {
         p = p->next;
     }
     return false;
+}
+
+// Get the size of the list
+static int sll_size(SingleLinkedList *l) {
+    int size = 0;
+    SingleLinkedList *p = l->next;
+    while (p != NULL) {
+        size++;
+        p = p->next;
+    }
+    return size;
+}
+
+// Clear the list
+static void sll_clear(SingleLinkedList *l) {
+    SingleLinkedList *p = l->next;
+    while (p != NULL) {
+        SingleLinkedList *temp = p;
+        p = p->next;
+        free(temp);
+    }
+    l->next = NULL;
+}
+
+// Destroy the list
+static void sll_destroy(SingleLinkedList *l) {
+    sll_clear(l);
+    free(l);
 }

@@ -29,36 +29,36 @@
 int main() {
 
     printf("1. Create a linked list\n");
-    LinkedList *list = ll_create();
+    SingleLinkedList *list = sll_create();
 
     printf("-| Add values to the list\n");
-    ll_add(list, 11);
-    ll_add(list, 12);
-    ll_add(list, 13);
-    ll_add(list, 14);
-    ll_add(list, 15);
+    sll_add(list, 11);
+    sll_add(list, 12);
+    sll_add(list, 13);
+    sll_add(list, 14);
+    sll_add(list, 15);
     printf("\n");
 
     printf("2. Print the list\n");
     printf("-| current -> ");
-    ll_print(list);
+    sll_print(list);
     printf("\n");
 
-    printf("3. Get the third node:\n");
+    printf("3. Get the third single_linked_node:\n");
     int third;
-    ll_get(list, 3, &third);
-    printf("-| The third node is %d\n", third);
+    sll_get(list, 3, &third);
+    printf("-| The third single_linked_node is %d\n", third);
     printf("\n");
 
-    printf("4. Insert 16 after the fifth node\n");
-    ll_insert(list, 6, 16);
+    printf("4. Insert 16 after the fifth single_linked_node\n");
+    sll_insert(list, 6, 16);
     printf("-| current -> ");
-    ll_print(list);
+    sll_print(list);
     printf("\n");
 
-    printf("5. Delete the first node\n");
-    ll_delete_at(list, 1);
+    printf("5. Delete the first single_linked_node\n");
+    sll_delete_at(list, 1);
     printf("-| current -> ");
-    ll_print(list);
+    sll_print(list);
     printf("\n");
 }
