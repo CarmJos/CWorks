@@ -136,7 +136,7 @@ static bool dll_get(DoubleLinkedList *list, int index, int *result) {
     int i = 0;
     DoubleLinkedList *p = list->next;
     while (p != NULL) {
-        if (i == index) {
+        if (i == index - 1) {
             *result = p->data;
             return true;
         }
