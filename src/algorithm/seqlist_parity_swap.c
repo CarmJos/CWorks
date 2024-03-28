@@ -24,13 +24,19 @@
 // 1) 在main函数中验证：原始数组为{1，2，3，4，5，6，7，8，9，10}，将其奇偶交换后再将数组中的元素打印出来
 // 2) 将主要的奇偶交换代码以及运行结果截图
 
+static void swap(SeqList *list, int i, int j) {
+    int temp = list->data[i];
+    list->data[i] = list->data[j];
+    list->data[j] = temp;
+}
+
 int main() {
     SeqList *list = sl_create();
     for (int i = 1; i <= 10; i++) {
         sl_add(list, i);
     }
 
-    printf("before -> ");
+    printf("before\t->\t");
     sl_print(list);
     printf("\n");
 
@@ -42,14 +48,10 @@ int main() {
         while (list->data[j] % 2 == 0) {
             j--;
         }
-        if (i < j) {
-            int temp = list->data[i];
-            list->data[i] = list->data[j];
-            list->data[j] = temp;
-        }
+        if (i < j) swap(list, i, j);
     }
 
-    printf("after XQ -> ");
+    printf("after\t->\t");
     sl_print(list);
     return 0;
 }
