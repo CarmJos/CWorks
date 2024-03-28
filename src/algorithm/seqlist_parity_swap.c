@@ -21,7 +21,7 @@
 
 // 将所在奇数移到所有偶数的前面，要求算法的时间复杂度为O(n)，空间复杂度为O(1)。
 // 要求：
-// 1) 在main函数中验证：原始数组为{1，2，3，4，5，6，7，8，9，10}，将其奇偶交换后再将数组中的元素打印出来。结果应该是 {1,3,5,7,9,2,4,6,8,10}
+// 1) 在main函数中验证：原始数组为{1，2，3，4，5，6，7，8，9，10}，将其奇偶交换后再将数组中的元素打印出来
 // 2) 将主要的奇偶交换代码以及运行结果截图
 
 int main() {
@@ -30,21 +30,26 @@ int main() {
         sl_add(list, i);
     }
 
-    int i = 0, j;
-    while (i < list->size) {
-        if (list->data[i] % 2 == 0) { // 是
-            i++;
-            continue;
-        }
+    printf("before -> ");
+    sl_print(list);
+    printf("\n");
 
-        int temp = list->data[i];
-        for (j = i; j > 0; j--) {
-            list->data[j] = list->data[j - 1];
+    int i = 0, j = list->size - 1;
+    while (i < j) {
+        while (list->data[i] % 2 != 0) {
+            i++;
         }
-        list->data[j] = temp;
-        i++;
+        while (list->data[j] % 2 == 0) {
+            j--;
+        }
+        if (i < j) {
+            int temp = list->data[i];
+            list->data[i] = list->data[j];
+            list->data[j] = temp;
+        }
     }
 
+    printf("after XQ -> ");
     sl_print(list);
     return 0;
 }

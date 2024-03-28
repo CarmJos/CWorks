@@ -39,8 +39,13 @@ int main() {
         sl_add(list, i);
     }
 
+    printf("before\t->\t ");
+    sl_print(list);
+    printf("\n");
+
     SeqList *filtered = filter(list, 1, 5);
 
+    printf("after\t->\t ");
     sl_print(filtered);
 
     return 0;
