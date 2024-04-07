@@ -39,15 +39,19 @@ static SingleLinkedList *sll_create() {
     return sll_node(0, NULL);
 }
 
-// Add a new single_linked_node to the list's tail
-static void sll_add(SingleLinkedList *l, int data) {
+static void sll_link(SingleLinkedList *l, SingleLinkedList *node) {
     SingleLinkedList *p = l;
     while (p->next != NULL) {
         p = p->next;
     }
-    SingleLinkedList *new_node = sll_node(data, NULL);
-    p->next = new_node;
+    p->next = node;
 }
+
+// Add a new single_linked_node to the list's tail
+static void sll_add(SingleLinkedList *l, int data) {
+    sll_link(l, sll_node(data, NULL));
+}
+
 
 // Delete a single_linked_node from the list
 static void sll_delete(SingleLinkedList *l, int data) {
