@@ -22,7 +22,6 @@
 #include "../list/linked_stack.h"
 #include "../list/linked_stack_double.h"
 
-
 // 请编写一个函数，实现一个多位数四则运算计算器
 // 要求支持加、减、乘、除四种运算，要求支持括号，要求支持整数和小数的运算。
 
@@ -41,7 +40,7 @@ static int priority(char c) {
 }
 
 static char *parse_postfix(const char *expression) {
-    Stack *op = s_create(100);
+    Stack *operations = s_create(100);
     char *postfix = (char *) malloc(100 * sizeof(char));
     int index = 0;
     for (int i = 0; expression[i] != '\0';) {
@@ -51,7 +50,7 @@ static char *parse_postfix(const char *expression) {
         }
         if (expression[i] == '-' && (i == 0 || expression[i - 1] == '(')) {
             postfix[index++] = '0';  // push 0 to stack
-            s_push(op, '-');  // treat '-' as unary operator
+            s_push(operations, '-');  // treat '-' as unary operator
             i++;
         } else if ((expression[i] >= '0' && expression[i] <= '9') || expression[i] == '.') {
             while ((expression[i] >= '0' && expression[i] <= '9') || expression[i] == '.') {
@@ -59,24 +58,24 @@ static char *parse_postfix(const char *expression) {
             }
             postfix[index++] = ' ';  // add a space as delimiter
         } else if (expression[i] == '(') {
-            s_push(op, '(');
+            s_push(operations, '(');
             i++;
         } else if (expression[i] == ')') {
-            while (s_top(op) != '(') {
-                postfix[index++] = s_pop(op);
+            while (s_top(operations) != '(') {
+                postfix[index++] = s_pop(operations);
             }
-            s_pop(op);
+            s_pop(operations);
             i++;
         } else {
-            while (!s_empty(op) && priority(s_top(op)) >= priority(expression[i])) {
-                postfix[index++] = s_pop(op);
+            while (!s_empty(operations) && priority(s_top(operations)) >= priority(expression[i])) {
+                postfix[index++] = s_pop(operations);
             }
-            s_push(op, expression[i]);
+            s_push(operations, expression[i]);
             i++;
         }
     }
-    while (!s_empty(op)) {
-        postfix[index++] = s_pop(op);
+    while (!s_empty(operations)) {
+        postfix[index++] = s_pop(operations);
     }
     postfix[index] = '\0';
     return postfix;
@@ -116,25 +115,4 @@ static double calculate(const char *expression) {
     }
     free(postfix);
     return ds_pop(stack);
-}
-
-int main() {
-    // Parser tests
-    printf("Transform infix expression to postfix expression:\n");
-    printf(" 1 + 2  ->  %s\n", parse_postfix("1 + 2"));
-    printf(" 1 - 25  ->  %s\n", parse_postfix("1 - 25"));
-    printf(" 21 * 20  ->  %s\n", parse_postfix("21 * 20"));
-    printf(" 1 / 2  ->  %s\n", parse_postfix("1 / 2"));
-    printf(" 1 + 2 * 3  ->  %s\n", parse_postfix("1 + 2 * 3"));
-    printf(" 2 + (2 - 3) * 15  ->  %s\n", parse_postfix("2 + (2 - 3) * 15"));
-
-
-    printf("\n\nTest calculate function:\n");
-    printf("1 + 2 = %.2f\n", calculate("1 + 2"));
-    printf("1 - 2 = %.2f\n", calculate("1 - 2"));
-    printf("1 * 2 = %.2f\n", calculate("1 * 2"));
-    printf("1 / 2 = %.2f\n", calculate("1 / 2"));
-    printf("1 + 2 * 3 = %.2f\n", calculate("1 + 2 * 3"));
-    printf("2 + (2 - 3) * 15 = %.2f\n", calculate("2 + (2 - 3) * 15"));
-    return 0;
 }
