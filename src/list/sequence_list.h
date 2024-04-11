@@ -77,7 +77,7 @@ static bool sl_empty(SeqList *l) {
     return l->size == 0;
 }
 
-// Out print the whole list
+// Out convert_print the whole list
 static void sl_print(SeqList *l) {
     for (int i = 0; i < l->size; i++)
         printf("%d ", (l->data[i]));

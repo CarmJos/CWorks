@@ -40,7 +40,25 @@ char *convert(int num, int base) {
     return result;
 }
 
+void convert_print(int num, int base) {
+
+    Stack *stack = s_create(100);
+    while (num != 0) { // Push the remainder to the stack
+        s_push(stack, num % base);
+        num /= base;
+    }
+
+    s_print(stack); // Print the stack
+    while (!s_empty(stack)) { // Print the result
+        printf("%d", s_pop(stack));
+    }
+
+    free(stack);
+}
+
+
 int main() {
+
 
     int num, base;
     printf("Please input a number: ");
@@ -52,6 +70,8 @@ int main() {
 
     char *result = convert(num, base);
     printf("%s\n", result);
+    convert_print(num, base);
+
     free(result);
     return 0;
 }
