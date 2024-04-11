@@ -162,7 +162,7 @@ receiver—>recv
 return —> ret
 result—>res
 source —> src
-stack—>stk
+stack_node—>stk
 string—>str
 subtraction—>sub
 semaphore —> sem
