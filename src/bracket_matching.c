@@ -22,7 +22,7 @@
 
 // 使用栈实现前后括号匹配（支持括号、中括号、大括号）
 static bool matching(const char *input) {
-    Stack *stack = s_create(100);
+    LinkedStack *stack = s_create(100);
     for (int i = 0; input[i] != '\0'; i++) {
         char c = input[i];
         if (c == '(' || c == '[' || c == '{') {

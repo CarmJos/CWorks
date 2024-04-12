@@ -18,9 +18,8 @@
 // Created by Karmu on 2024/4/11.
 //
 
-#include <stdio.h>
-#include "../list/linked_stack.h"
-#include "../list/linked_stack_double.h"
+#include "../stack/linked_stack_double.c"
+#include "../stack/linked_stack_string.c"
 
 // 请编写一个函数，实现一个多位数四则运算计算器
 // 要求支持加、减、乘、除四种运算，要求支持括号，要求支持整数和小数的运算。
@@ -40,7 +39,7 @@ static int priority(char c) {
 }
 
 static char *parse_postfix(const char *expression) {
-    Stack *operations = s_create(100);
+    LinkedStringStack *operations = s_create(100);
     char *postfix = (char *) malloc(100 * sizeof(char));
     int index = 0;
     for (int i = 0; expression[i] != '\0';) {
@@ -99,7 +98,7 @@ static double simple_calc(double a, double b, char op) {
 
 static double calculate(const char *expression) {
     char *postfix = parse_postfix(expression);
-    DoubleStack *stack = ds_create(100);
+    LinkedDoubleStack *stack = ds_create(100);
     for (int i = 0; postfix[i] != '\0'; i++) {
         if (postfix[i] >= '0' && postfix[i] <= '9') {
             double num = 0;

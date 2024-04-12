@@ -24,7 +24,7 @@
 
 char *convert(int num, int base) {
 
-    Stack *stack = s_create(100);
+    LinkedStack *stack = s_create(100);
     while (num != 0) {
         s_push(stack, num % base);
         num /= base;
@@ -42,7 +42,7 @@ char *convert(int num, int base) {
 
 void convert_print(int num, int base) {
 
-    Stack *stack = s_create(100);
+    LinkedStack *stack = s_create(100);
     while (num != 0) { // Push the remainder to the stack
         s_push(stack, num % base);
         num /= base;

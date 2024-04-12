@@ -24,36 +24,36 @@
 typedef struct stack_node {
     char *data;
     int top;
-} Stack;
+} LinkedStringStack;
 
-Stack *s_create(int size) {
-    Stack *stack = (Stack *) malloc(sizeof(Stack));
+LinkedStringStack *s_create(int size) {
+    LinkedStringStack *stack = (LinkedStringStack *) malloc(sizeof(LinkedStringStack));
     stack->data = (char *) malloc(size * sizeof(char));
     stack->top = -1;
     return stack;
 }
 
-void s_push(Stack *stack, char c) {
+void s_push(LinkedStringStack *stack, char c) {
     stack->data[++stack->top] = c;
 }
 
-char s_pop(Stack *stack) {
+char s_pop(LinkedStringStack *stack) {
     return stack->data[stack->top--];
 }
 
-char s_top(Stack *stack) {
+char s_top(LinkedStringStack *stack) {
     return stack->data[stack->top];
 }
 
-int s_empty(Stack *stack) {
+int s_empty(LinkedStringStack *stack) {
     return stack->top == -1;
 }
 
-int s_size(Stack *stack) {
+int s_size(LinkedStringStack *stack) {
     return stack->top + 1;
 }
 
-void s_print(Stack *stack) {
+void s_print(LinkedStringStack *stack) {
     for (int i = 0; i <= stack->top; i++) {
         printf("%c ", stack->data[i]);
     }

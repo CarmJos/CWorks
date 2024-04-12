@@ -19,7 +19,7 @@
 //
 
 #include <stdio.h>
-#include "../math/arithmetic.h"
+#include "../math/arithmetic.c"
 
 
 int main() {

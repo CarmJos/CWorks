@@ -38,7 +38,7 @@ static DoubleLinkedList *dll_create() {
     return dll_node(0, NULL, NULL);
 }
 
-// Add a new node to the list's tail
+// Add a new queue_node to the list's tail
 static void dll_add(DoubleLinkedList *l, int data) {
     DoubleLinkedList *p = l;
     while (p->next != NULL) {
@@ -48,7 +48,7 @@ static void dll_add(DoubleLinkedList *l, int data) {
     p->next = new_node;
 }
 
-// Delete a node from the list
+// Delete a queue_node from the list
 static void dll_delete(DoubleLinkedList *l, int data) {
     DoubleLinkedList *p = l;
     while (p->next != NULL) {
@@ -65,7 +65,7 @@ static void dll_delete(DoubleLinkedList *l, int data) {
     }
 }
 
-// Delete a node from the list by index
+// Delete a queue_node from the list by index
 static void dll_delete_at(DoubleLinkedList *l, int index) {
     DoubleLinkedList *p = l;
     int i = 0;
@@ -112,12 +112,12 @@ static bool dll_empty(DoubleLinkedList *l) {
     return l->next == NULL;
 }
 
-// Get the first node's data
+// Get the first queue_node's data
 static int dll_first(DoubleLinkedList *l) {
     return l->next->data;
 }
 
-// Get the last node's data
+// Get the last queue_node's data
 static int dll_last(DoubleLinkedList *l) {
     DoubleLinkedList *p = l;
     while (p->next != NULL) {

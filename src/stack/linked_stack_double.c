@@ -14,47 +14,43 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-//
-// Created by Karmu on 2024/4/11.
-//
-
 #include <malloc.h>
 #include <stdio.h>
 
 typedef struct ds_node {
     double *data;
     int top;
-} DoubleStack;
+} LinkedDoubleStack;
 
-DoubleStack *ds_create(int size) {
-    DoubleStack *ds = (DoubleStack *) malloc(sizeof(DoubleStack));
+LinkedDoubleStack *ds_create(int size) {
+    LinkedDoubleStack *ds = (LinkedDoubleStack *) malloc(sizeof(LinkedDoubleStack));
     ds->data = (double *) malloc(size * sizeof(double));
     ds->top = -1;
     return ds;
 }
 
-void ds_push(DoubleStack *DoubleStack, double c) {
-    DoubleStack->data[++DoubleStack->top] = c;
+void ds_push(LinkedDoubleStack *LinkedDoubleStack, double c) {
+    LinkedDoubleStack->data[++LinkedDoubleStack->top] = c;
 }
 
-double ds_pop(DoubleStack *s) {
+double ds_pop(LinkedDoubleStack *s) {
     return s->data[s->top--];
 }
 
-double ds_top(DoubleStack *s) {
+double ds_top(LinkedDoubleStack *s) {
     return s->data[s->top];
 }
 
-int ds_empty(DoubleStack *s) {
+int ds_empty(LinkedDoubleStack *s) {
     return s->top == -1;
 }
 
-int ds_size(DoubleStack *s) {
+int ds_size(LinkedDoubleStack *s) {
     return s->top + 1;
 }
 
-void ds_print(DoubleStack *DoubleStack) {
-    for (int i = 0; i <= DoubleStack->top; i++) {
-        printf("%lf ", DoubleStack->data[i]);
+void ds_print(LinkedDoubleStack *LinkedDoubleStack) {
+    for (int i = 0; i <= LinkedDoubleStack->top; i++) {
+        printf("%lf ", LinkedDoubleStack->data[i]);
     }
 }
