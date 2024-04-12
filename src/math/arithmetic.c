@@ -14,11 +14,7 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-//
-// Created by Karmu on 2024/4/11.
-//
-
-#include "../stack/linked_stack_double.c"
+#include "../stack/linked_stack.c"
 #include "../stack/linked_stack_string.c"
 
 // 请编写一个函数，实现一个多位数四则运算计算器
@@ -98,20 +94,20 @@ static double simple_calc(double a, double b, char op) {
 
 static double calculate(const char *expression) {
     char *postfix = parse_postfix(expression);
-    LinkedDoubleStack *stack = ds_create(100);
+    LinkedStack *stack = ls_create(100);
     for (int i = 0; postfix[i] != '\0'; i++) {
         if (postfix[i] >= '0' && postfix[i] <= '9') {
             double num = 0;
             while (postfix[i] >= '0' && postfix[i] <= '9') {
                 num = num * 10 + (postfix[i++] - '0');
             } // 支持多位数
-            ds_push(stack, num);
+            ls_push(stack, num);
         } else if (postfix[i] != ' ') {
-            double a = ds_pop(stack);
-            double b = ds_pop(stack);
-            ds_push(stack, simple_calc(a, b, postfix[i]));
+            double a = ls_pop(stack);
+            double b = ls_pop(stack);
+            ls_push(stack, simple_calc(a, b, postfix[i]));
         }
     }
     free(postfix);
-    return ds_pop(stack);
+    return ls_pop(stack);
 }

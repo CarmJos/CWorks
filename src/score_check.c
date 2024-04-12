@@ -43,7 +43,7 @@ int main() {
             printf("D");
             break;
         default:
-            printf("E");
+            printf("ELEMENT_TYPE");
             break;
     }
 

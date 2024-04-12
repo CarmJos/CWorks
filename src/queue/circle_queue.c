@@ -18,10 +18,11 @@
 #include <malloc.h>
 
 #define CAPACITY 10
+#define  ELEMENT_TYPE int // 定义数据类型
 
 // 实现循环队列
 typedef struct {
-    int *data; // 数据数组
+    ELEMENT_TYPE *data; // 数据数组
     int front; // 队头指针
     int rear; // 队尾指针
     int size; // 队列的当前大小
@@ -29,7 +30,7 @@ typedef struct {
 
 CircleQueue *cq_create() {
     CircleQueue *queue = (CircleQueue *) malloc(sizeof(CircleQueue));
-    queue->data = (int *) malloc(CAPACITY * sizeof(int));
+    queue->data = (ELEMENT_TYPE *) malloc(CAPACITY * sizeof(int));
     queue->front = queue->rear = 0;
     queue->size = 0;
     return queue;

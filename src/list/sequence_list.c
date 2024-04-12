@@ -19,9 +19,10 @@
 #include "malloc.h"
 
 #define INITIATE_SIZE 10
+#define  ELEMENT_TYPE int // 定义数据类型
 
 typedef struct {
-    int *data;
+    ELEMENT_TYPE *data;
     int size;
     int capacity;
 } SeqList;
@@ -29,7 +30,7 @@ typedef struct {
 // Create an empty list
 static SeqList *sl_create() {
     SeqList *list = (SeqList *) malloc(sizeof(SeqList));
-    list->data = (int *) malloc(INITIATE_SIZE * sizeof(int));
+    list->data = (ELEMENT_TYPE *) malloc(INITIATE_SIZE * sizeof(int));
     list->size = 0;
     list->capacity = INITIATE_SIZE;
     return list;
@@ -37,7 +38,7 @@ static SeqList *sl_create() {
 
 // Expand the list's capacity
 static void sl_expand(SeqList *l) {
-    int *new_data = (int *) malloc(l->capacity * 2 * sizeof(int));
+    ELEMENT_TYPE *new_data = (ELEMENT_TYPE *) malloc(l->capacity * 2 * sizeof(int));
     for (int i = 0; i < l->size; i++) {
         new_data[i] = l->data[i];
     }
@@ -49,7 +50,7 @@ static void sl_expand(SeqList *l) {
 // Shrink the list's capacity
 static void sl_shrink(SeqList *l, int amount) {
     int after = l->capacity - amount;
-    int *new_data = (int *) malloc(after * sizeof(int));
+    ELEMENT_TYPE *new_data = (ELEMENT_TYPE *) malloc(after * sizeof(int));
     l->size = l->size > after ? after : l->size;
     for (int i = 0; i < l->size; i++) {
         new_data[i] = l->data[i];
@@ -60,7 +61,7 @@ static void sl_shrink(SeqList *l, int amount) {
 }
 
 // Put the whole array into the list, return success or not.
-static bool sl_put(SeqList *l, const int *array, int length) {
+static bool sl_put(SeqList *l, const ELEMENT_TYPE *array, int length) {
     while (length > l->capacity) {
         sl_expand(l); // Expand the list
     }
@@ -104,7 +105,7 @@ static bool sl_contains(SeqList *l, int target) {
 }
 
 // Get the index of the index to result, return success or not.
-static bool sl_get(SeqList *list, int index, int *result) {
+static bool sl_get(SeqList *list, int index, ELEMENT_TYPE *result) {
     if (index < 1 || index > list->size) {
         return false;
     } else {
@@ -172,7 +173,7 @@ static bool sl_remove(SeqList *list, int index) {
 }
 
 // Remove the element at the index, return success or not.
-static bool sl_delete(SeqList *list, int index, int *deleted) {
+static bool sl_delete(SeqList *list, int index, ELEMENT_TYPE *deleted) {
     if (list->size == 0) {
         return false;
     }

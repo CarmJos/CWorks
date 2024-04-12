@@ -17,40 +17,42 @@
 #include <malloc.h>
 #include <stdio.h>
 
-typedef struct ds_node {
-    double *data;
-    int top;
-} LinkedDoubleStack;
+#define ELEMENT_TYPE double
 
-LinkedDoubleStack *ds_create(int size) {
-    LinkedDoubleStack *ds = (LinkedDoubleStack *) malloc(sizeof(LinkedDoubleStack));
-    ds->data = (double *) malloc(size * sizeof(double));
+typedef struct ls_node {
+    ELEMENT_TYPE *data;
+    int top;
+} LinkedStack;
+
+LinkedStack *ls_create(int size) {
+    LinkedStack *ds = (LinkedStack *) malloc(sizeof(LinkedStack));
+    ds->data = (ELEMENT_TYPE *) malloc(size * sizeof(ELEMENT_TYPE));
     ds->top = -1;
     return ds;
 }
 
-void ds_push(LinkedDoubleStack *LinkedDoubleStack, double c) {
-    LinkedDoubleStack->data[++LinkedDoubleStack->top] = c;
+void ls_push(LinkedStack *LinkedStack, ELEMENT_TYPE c) {
+    LinkedStack->data[++LinkedStack->top] = c;
 }
 
-double ds_pop(LinkedDoubleStack *s) {
+ELEMENT_TYPE ls_pop(LinkedStack *s) {
     return s->data[s->top--];
 }
 
-double ds_top(LinkedDoubleStack *s) {
+ELEMENT_TYPE ls_top(LinkedStack *s) {
     return s->data[s->top];
 }
 
-int ds_empty(LinkedDoubleStack *s) {
+int ls_empty(LinkedStack *s) {
     return s->top == -1;
 }
 
-int ds_size(LinkedDoubleStack *s) {
+int ls_size(LinkedStack *s) {
     return s->top + 1;
 }
 
-void ds_print(LinkedDoubleStack *LinkedDoubleStack) {
-    for (int i = 0; i <= LinkedDoubleStack->top; i++) {
-        printf("%lf ", LinkedDoubleStack->data[i]);
+void ls_print(LinkedStack *LinkedStack) {
+    for (int i = 0; i <= LinkedStack->top; i++) {
+        printf("%lf ", LinkedStack->data[i]);
     }
 }

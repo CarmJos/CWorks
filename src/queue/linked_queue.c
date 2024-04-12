@@ -17,9 +17,11 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#define  ELEMENT_TYPE int // 定义数据类型
+
 // 实现链式队列
 typedef struct queue_node {
-    int data;
+    ELEMENT_TYPE data;
     struct queue_node *next;
 } QueueNode;
 
@@ -35,7 +37,7 @@ LinkedQueue *lq_create() {
     return queue;
 }
 
-void lq_push(LinkedQueue *queue, int data) {
+void lq_push(LinkedQueue *queue, ELEMENT_TYPE data) {
     QueueNode *new_node = (QueueNode *) malloc(sizeof(QueueNode));
     new_node->data = data;
     new_node->next = NULL;
@@ -43,12 +45,12 @@ void lq_push(LinkedQueue *queue, int data) {
     queue->rear = new_node;
 }
 
-int lq_pop(LinkedQueue *queue) {
+ELEMENT_TYPE lq_pop(LinkedQueue *queue) {
     if (queue->front->next == NULL) {
         return -1;
     }
     QueueNode *temp = queue->front->next;
-    int data = temp->data;
+    ELEMENT_TYPE data = temp->data;
     queue->front->next = temp->next;
     if (queue->rear == temp) {
         queue->rear = queue->front;
@@ -57,7 +59,7 @@ int lq_pop(LinkedQueue *queue) {
     return data;
 }
 
-int lq_empty(LinkedQueue *queue) {
+ELEMENT_TYPE lq_empty(LinkedQueue *queue) {
     return queue->front->next == NULL;
 }
 
@@ -70,7 +72,7 @@ void lq_clear(LinkedQueue *queue) {
     queue->rear = queue->front;
 }
 
-void lq_print(LinkedQueue *queue) {
+void lq_prELEMENT(LinkedQueue *queue) {
     QueueNode *p = queue->front->next;
     while (p != NULL) {
         printf("%d ", p->data);
