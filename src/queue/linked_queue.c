@@ -37,7 +37,7 @@ LinkedQueue *lq_create() {
     return queue;
 }
 
-void lq_push(LinkedQueue *queue, ELEMENT_TYPE data) {
+void lq_enqueue(LinkedQueue *queue, ELEMENT_TYPE data) {
     QueueNode *new_node = (QueueNode *) malloc(sizeof(QueueNode));
     new_node->data = data;
     new_node->next = NULL;
@@ -45,7 +45,7 @@ void lq_push(LinkedQueue *queue, ELEMENT_TYPE data) {
     queue->rear = new_node;
 }
 
-ELEMENT_TYPE lq_pop(LinkedQueue *queue) {
+ELEMENT_TYPE lq_dequeue(LinkedQueue *queue) {
     if (queue->front->next == NULL) {
         return -1;
     }

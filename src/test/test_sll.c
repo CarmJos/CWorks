@@ -14,7 +14,7 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "../list/single_linked_list.h"
+#include "../list/single_linked_list.c"
 #include "stdio.h"
 
 /*

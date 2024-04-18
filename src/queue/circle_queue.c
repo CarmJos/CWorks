@@ -36,7 +36,7 @@ CircleQueue *cq_create() {
     return queue;
 }
 
-void cq_push(CircleQueue *queue, int data) {
+void cq_enqueue(CircleQueue *queue, int data) {
     if (queue->size == CAPACITY) { // 检查是否已满
         printf("Queue is full.\n");
         return;
@@ -46,7 +46,7 @@ void cq_push(CircleQueue *queue, int data) {
     queue->size++; // 更新队列大小
 }
 
-int cq_pop(CircleQueue *queue) {
+int cq_dequeue(CircleQueue *queue) {
     if (queue->size == 0) { // 检查是否为空
         printf("Queue is empty.\n");
         return -1;

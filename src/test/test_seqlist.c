@@ -14,7 +14,7 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-#include "../list/sequence_list.h"
+#include "../list/sequence_list.c"
 
 int main() {
     SeqList *list = sl_create();
