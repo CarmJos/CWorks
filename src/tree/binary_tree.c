@@ -73,13 +73,13 @@ int bt_count_leaf(BinaryTree *root) {
     return bt_count_node(root, 0);
 }
 
-
-int main() {
-//      A
-//    /   \
-//    B     C
+//       A
+//     /    \
+//    B      C
 //   / \   /
 //  D   E F
+int main() {
+
     BinaryTree *tree = bt_create('A');
 
     BinaryTree *nodeB = bt_create('B');
