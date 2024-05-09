@@ -52,7 +52,34 @@ void bt_post_order(BinaryTree *root) {
     printf("%c ", root->data);
 }
 
-void main() {
+// 计算指定度数(即其拥有的子节点个数)的节点个数
+// degree = -1 代表所有节点
+// degree = 0 代表叶子节点
+// degree = 1 代表拥有一个子节点的节点
+// degree = 2 代表拥有两个子节点的节点
+int bt_count_node(BinaryTree *root, int degree) {
+    if (root == NULL) return 0;
+    if (degree == -1) {
+        return 1 + bt_count_node(root->left, degree) + bt_count_node(root->right, degree);
+    }
+    if (degree == 0 && root->left == NULL && root->right == NULL) return 1;
+    if (degree == 1 && (root->left == NULL || root->right == NULL)) return 1;
+    if (degree == 2 && root->left != NULL && root->right != NULL) return 1;
+
+    return bt_count_node(root->left, degree) + bt_count_node(root->right, degree);
+}
+
+int bt_count_leaf(BinaryTree *root) {
+    return bt_count_node(root, 0);
+}
+
+
+int main() {
+//      A
+//    /   \
+//    B     C
+//   / \   /
+//  D   E F
     BinaryTree *tree = bt_create('A');
 
     BinaryTree *nodeB = bt_create('B');
@@ -77,4 +104,11 @@ void main() {
     printf("\nPost-order: ");
     bt_post_order(tree); // D E B F C A
 
+    printf("\nLeaf count: %d\n", bt_count_leaf(tree)); // 3
+    printf("Node count: %d\n", bt_count_node(tree, -1)); // 6
+    printf("Degree One count: %d\n", bt_count_node(tree, 1)); // 2
+    printf("Degree Two count: %d\n", bt_count_node(tree, 2)); // 1
+
+
+    return 0;
 }
