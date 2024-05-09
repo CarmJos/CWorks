@@ -16,8 +16,10 @@
 
 #include <stdio.h>
 #include <malloc.h>
+#include <stdlib.h> // 使用stdlib.h替换malloc.h，因为stdlib包含了malloc的定义
 
-#define  ELEMENT_TYPE int // 定义数据类型
+// 定义数据类型
+#define ELEMENT_TYPE void* // 使用void* 来存储任意类型的数据
 
 // 实现链式队列
 typedef struct queue_node {
@@ -30,6 +32,7 @@ typedef struct {
     QueueNode *rear;
 } LinkedQueue;
 
+// 创建队列
 LinkedQueue *lq_create() {
     LinkedQueue *queue = (LinkedQueue *) malloc(sizeof(LinkedQueue));
     queue->front = queue->rear = (QueueNode *) malloc(sizeof(QueueNode));
@@ -37,6 +40,7 @@ LinkedQueue *lq_create() {
     return queue;
 }
 
+// 入队操作
 void lq_enqueue(LinkedQueue *queue, ELEMENT_TYPE data) {
     QueueNode *new_node = (QueueNode *) malloc(sizeof(QueueNode));
     new_node->data = data;
@@ -45,9 +49,10 @@ void lq_enqueue(LinkedQueue *queue, ELEMENT_TYPE data) {
     queue->rear = new_node;
 }
 
+// 出队操作
 ELEMENT_TYPE lq_dequeue(LinkedQueue *queue) {
     if (queue->front->next == NULL) {
-        return -1;
+        return NULL; // 适应 void* 类型，返回NULL代表队列为空
     }
     QueueNode *temp = queue->front->next;
     ELEMENT_TYPE data = temp->data;
@@ -59,23 +64,23 @@ ELEMENT_TYPE lq_dequeue(LinkedQueue *queue) {
     return data;
 }
 
-ELEMENT_TYPE lq_empty(LinkedQueue *queue) {
+// 判断队列是否为空
+int lq_empty(LinkedQueue *queue) {
     return queue->front->next == NULL;
 }
 
+// 清空队列
 void lq_clear(LinkedQueue *queue) {
-    while (queue->front->next != NULL) {
-        QueueNode *temp = queue->front->next;
-        queue->front->next = temp->next;
-        free(temp);
+    while (!lq_empty(queue)) {
+        lq_dequeue(queue);
     }
-    queue->rear = queue->front;
 }
 
-void lq_prELEMENT(LinkedQueue *queue) {
+// 打印队列元素
+void lq_print(LinkedQueue *queue) {
     QueueNode *p = queue->front->next;
     while (p != NULL) {
-        printf("%d ", p->data);
+        printf("%p ", p->data); // 打印指针的值
         p = p->next;
     }
 }

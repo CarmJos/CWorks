@@ -17,6 +17,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "../queue/linked_queue.c"
 
 typedef char ElementType;
 
@@ -53,6 +54,17 @@ void bt_post_order(BinaryTree *root) {
     printf("%c ", root->data);
 }
 
+void bt_level_order(BinaryTree *root) {
+    LinkedQueue *queue = lq_create();
+    lq_enqueue(queue, root);
+    while (queue->front->next != NULL) {
+        BinaryTree *node = lq_dequeue(queue);
+        printf("%c ", node->data);
+        if (node->left != NULL) lq_enqueue(queue, node->left);
+        if (node->right != NULL) lq_enqueue(queue, node->right);
+    }
+}
+
 bool bt_has_child(BinaryTree *tree, int num) {
     bool left = tree->left != NULL;
     bool right = tree->right != NULL;
@@ -73,6 +85,7 @@ int bt_count_node(BinaryTree *root, int degree) {
 int bt_count_leaf(BinaryTree *root) {
     return bt_count_node(root, 0);
 }
+
 
 //       A
 //     /    \
@@ -104,6 +117,9 @@ int main() {
 
     printf("\nPost-order: ");
     bt_post_order(tree); // D E B F C A
+
+    printf("\nLevel-order: ");
+    bt_level_order(tree); // A B C D E F
 
     printf("\nNode count: %d\n", bt_count_node(tree, -1)); // 6
     printf("Leaf count: %d\n", bt_count_leaf(tree)); // 3
