@@ -16,7 +16,6 @@
 
 #include <malloc.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include "../queue/linked_queue.c"
 
 typedef char ElementType;
@@ -65,34 +64,35 @@ void bt_level_order(BinaryTree *root) {
     }
 }
 
-bool bt_has_child(BinaryTree *tree, int num) {
-    bool left = tree->left != NULL;
-    bool right = tree->right != NULL;
-    return (num == 0 && !left && !right) || (num == 1 && (left ^ right)) || (num == 2 && left && right);
+int bt_count_child(BinaryTree *tree) {
+    return (tree->left != NULL) + (tree->right != NULL);
 }
 
 // 计算指定度数(即其拥有的子节点个数)的节点个数
-// degree = -1 代表所有节点
-// degree = 0 代表叶子节点
+// degree = -1 代表所有节点  degree = 0 代表叶子节点
 // degree = 1 代表拥有一个子节点的节点
 // degree = 2 代表拥有两个子节点的节点
-int bt_count_node(BinaryTree *root, int degree) {
-    if (root == NULL || degree < -1 || degree > 2) return 0;
-    return (degree == -1 || bt_has_child(root, degree))
-           + bt_count_node(root->left, degree) + bt_count_node(root->right, degree);
+int bt_count_node(BinaryTree *tree, int degree) {
+    if (tree == NULL || degree < -1 || degree > 2) return 0;
+    return (degree == -1 || bt_count_child(tree) == degree)
+           + bt_count_node(tree->left, degree)
+           + bt_count_node(tree->right, degree);
 }
 
-int bt_count_leaf(BinaryTree *root) {
-    return bt_count_node(root, 0);
+int bt_count_leaf(BinaryTree *tree) {
+    return bt_count_node(tree, 0);
 }
 
 
-//       A
-//     /    \
-//    B      C
-//   / \   /
-//  D   E F
 int main() {
+
+    // ------------------------------------------------
+    //       A
+    //     /    \
+    //    B      C    测试用例结构
+    //   / \   /
+    //  D   E F
+    // ------------------------------------------------
 
     BinaryTree *tree = bt_create('A');
 
@@ -108,6 +108,7 @@ int main() {
     nodeB->right = nodeE;
     nodeC->left = nodeF;
 
+    // ------------------------------------------------
 
     printf("Pre-order: ");
     bt_pre_order(tree); // A B D E C F
@@ -125,7 +126,6 @@ int main() {
     printf("Leaf count: %d\n", bt_count_leaf(tree)); // 3
     printf("Degree One count: %d\n", bt_count_node(tree, 1)); // 1
     printf("Degree Two count: %d\n", bt_count_node(tree, 2)); // 2
-
 
     return 0;
 }
