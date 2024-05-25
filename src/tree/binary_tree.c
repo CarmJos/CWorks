@@ -127,5 +127,48 @@ int main() {
     printf("Degree One count: %d\n", bt_count_node(tree, 1)); // 1
     printf("Degree Two count: %d\n", bt_count_node(tree, 2)); // 2
 
+    BinaryTree *tree2 = bt_create('A');
+    BinaryTree *nodeB2 = bt_create('B');
+    BinaryTree *nodeC2 = bt_create('C');
+    BinaryTree *nodeG2 = bt_create('G');
+    BinaryTree *nodeE2 = bt_create('E');
+    BinaryTree *nodeF2 = bt_create('F');
+    BinaryTree *nodeD2 = bt_create('D');
+    BinaryTree *nodeH2 = bt_create('H');
+    BinaryTree *nodeI2 = bt_create('I');
+    //        A
+    //       / \
+    //      B   C
+    //     /   /  \
+    //    D    E   F
+    //     \      /
+    //      G     H
+    //             \
+    //              I
+
+    tree2->left = nodeB2;
+    tree2->right = nodeC2;
+    nodeB2->left = nodeD2;
+    nodeB2->right = nodeE2;
+    nodeE2->left = nodeG2;
+    nodeC2->right = nodeF2;
+    nodeF2->right = nodeH2;
+    nodeH2->right = nodeI2;
+
+    printf("\nPre-order: ");
+    bt_pre_order(tree2);
+
+    printf("\nIn-order: ");
+    bt_in_order(tree2);
+
+    printf("\nPost-order: ");
+    bt_post_order(tree2);
+
+
+    printf("\nNode count: %d\n", bt_count_node(tree2, -1)); // 9
+    printf("Leaf count: %d\n", bt_count_leaf(tree2)); // 4
+    printf("Degree One count: %d\n", bt_count_node(tree2, 1)); // 3
+    printf("Degree Two count: %d\n", bt_count_node(tree2, 2)); // 2
+
     return 0;
 }
