@@ -149,10 +149,10 @@ int main() {
     tree2->left = nodeB2;
     tree2->right = nodeC2;
     nodeB2->left = nodeD2;
-    nodeB2->right = nodeE2;
-    nodeE2->left = nodeG2;
+    nodeD2->right = nodeG2;
+    nodeC2->left = nodeE2;
     nodeC2->right = nodeF2;
-    nodeF2->right = nodeH2;
+    nodeF2->left = nodeH2;
     nodeH2->right = nodeI2;
 
     printf("\nPre-order: ");
