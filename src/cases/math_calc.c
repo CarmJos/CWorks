@@ -131,15 +131,20 @@ double evaluateExpression(char *expression) {
 
 int main() {
     char expression[MAX_SIZE];
-    printf("输入您要计算的公式: ");
-    fgets(expression, MAX_SIZE, stdin);
+    while (1) {
+        printf("输入您要计算的公式(输入q退出): ");
+        fgets(expression, MAX_SIZE, stdin);
+        if (strcmp(expression, "q\n") == 0) {
+            printf("感谢使用~\n");
+            break;
+        }
 
-    // Remove newline character if present
-    expression[strcspn(expression, "\n")] = 0;
+        // Remove newline character if present
+        expression[strcspn(expression, "\n")] = 0;
 
-    double result = evaluateExpression(expression);
-    printf("结果为: %f\n", result);
-
+        double result = evaluateExpression(expression);
+        printf("结果为: %f\n", result);
+    }
     return 0;
 }
 
