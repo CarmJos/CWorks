@@ -53,7 +53,7 @@ void mh_heapify(MaxHeap *heap, int i) {
     heap->data[i] = data;
 }
 
-// offer插入数据，同时利用 heapify 上浮操作建堆
+// offer插入数据，同时利用 Adjust 上浮操作建堆
 void mh_offer(MaxHeap *heap, ELEMENT_TYPE data) {
     if (heap->size == MAX_HEAP_CAPACITY) {
         printf("Heap is full.\n");
@@ -68,7 +68,7 @@ void mh_offer(MaxHeap *heap, ELEMENT_TYPE data) {
     heap->data[i] = data;
 }
 
-// 提取的同时 利用 heapify 建堆
+// 提取的同时 利用 Adjust 建堆
 ELEMENT_TYPE mh_poll(MaxHeap *heap) {
     if (heap->size == 0) {
         printf("Heap is empty.\n");
