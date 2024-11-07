@@ -40,6 +40,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 # 遍历项目src目录下所有的 .c 文件，自动添加
 file(GLOB_RECURSE files src/*.c src/*.cpp)
 foreach (file ${files})
-    string(REGEX REPLACE ".+/(.+)\\..*" "\\1" exe ${file})
-    add_executable(${exe} ${file})
+    get_filename_component(name ${file} NAME)
+    add_executable(${name} ${file})
 endforeach ()
