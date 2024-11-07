@@ -39,7 +39,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 
 # 遍历项目src目录下所有的 .c 文件，自动添加
 file(GLOB_RECURSE files src/*.c src/*.cpp)
-foreach (file ${files})
-    get_filename_component(name ${file} NAME)
-    add_executable(${name} ${file})
-endforeach ()
+foreach (file ${files}) # 遍历所有发现的文件
+    get_filename_component(name ${file} NAME) # 获取文件名
+    add_executable(${name} ${file}) # 添加可执行文件
+endforeach () # 遍历结束
