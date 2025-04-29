@@ -41,19 +41,19 @@ int abs_diff(const int a, const int b) {
 
 // 先来先服务（First-Come, First-Served, FCFS）是最简单的磁盘调度算法，按照请求到达的顺序依次处理，公平但效率低下。
 void fcfs(int head, const int requests[], const int size) {
-    int seek_time = 0;
+    int cost = 0;
     printf("FCFS: ");
     for (int i = 0; i < size; i++) {
-        seek_time += abs_diff(head, requests[i]);
+        cost += abs_diff(head, requests[i]);
         head = requests[i];
         printf("%d ", requests[i]);
     }
-    printf("| %.1f\n", (float)seek_time / (float)size);
+    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // SSTF（Shortest Seek Time First）调度每次选择与当前磁头位置距离最近的请求，以最小化寻道时间。
 void sstf(int head, const int requests[], const int size) {
-    int seek_time = 0;
+    int cost = 0;
     int remaining[size];
     int remaining_count = size;
 
@@ -76,7 +76,7 @@ void sstf(int head, const int requests[], const int size) {
             }
         }
 
-        seek_time += min_diff;
+        cost += min_diff;
         head = remaining[closest_index];
         printf("%d ", head);
 
@@ -87,12 +87,12 @@ void sstf(int head, const int requests[], const int size) {
         remaining_count--;
     }
 
-    printf("| %.1f\n", (float)seek_time / (float)size);
+    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // SCAN 算法将磁臂从一端移动至另一端，在沿途处理所有请求，然后反向继续处理，如电梯般来回移动。
 void scan(int head, const int requests[], const int size, const int disk_size) {
-    int seek_time = 0;
+    int cost = 0;
     int schedule[size + 2]; // Add 2 for the extreme ends
     int sorted_requests[size];
 
@@ -122,18 +122,18 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
 
     // Move from head to the end of the disk
     for (int i = index; i < size; i++) {
-        seek_time += abs_diff(head, sorted_requests[i]);
+        cost += abs_diff(head, sorted_requests[i]);
         head = sorted_requests[i];
         schedule[schedule_index++] = head;
     }
 
     // Move to the other end (0) and service remaining requests
-    seek_time += abs_diff(head, 0);
+    cost += abs_diff(head, 0);
     head = 0;
     schedule[schedule_index++] = head;
 
     for (int i = index - 1; i >= 0; i--) {
-        seek_time += abs_diff(head, sorted_requests[i]);
+        cost += abs_diff(head, sorted_requests[i]);
         head = sorted_requests[i];
         schedule[schedule_index++] = head;
     }
@@ -143,12 +143,12 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
         printf("%d ", schedule[i]);
     }
 
-    printf("| %.1f\n", (float)seek_time / (float)size);
+    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // C-SCAN（Circular SCAN）与 SCAN 类似，但在到达一端后不反向，而是直接返回起始端再开始新一轮扫描。
 void cscan(int head, const int requests[], const int size, const int disk_size) {
-    int seek_time = 0;
+    int cost = 0;
     int schedule[size + 1]; // Add 1 for the end of the disk
     int sorted_requests[size];
 
@@ -178,19 +178,19 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
 
     // Move from head to the end of the disk
     for (int i = index; i < size; i++) {
-        seek_time += abs_diff(head, sorted_requests[i]);
+        cost += abs_diff(head, sorted_requests[i]);
         head = sorted_requests[i];
         schedule[schedule_index++] = head;
     }
 
     // Move to the beginning of the disk (0) without servicing requests
-    seek_time += abs_diff(head, disk_size - 1);
+    cost += abs_diff(head, disk_size - 1);
     head = 0;
     schedule[schedule_index++] = head;
 
     // Service remaining requests from the beginning
     for (int i = 0; i < index; i++) {
-        seek_time += abs_diff(head, sorted_requests[i]);
+        cost += abs_diff(head, sorted_requests[i]);
         head = sorted_requests[i];
         schedule[schedule_index++] = head;
     }
@@ -200,7 +200,7 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
         printf("%d ", schedule[i]);
     }
 
-    printf("| %.1f\n", (float)seek_time / (float)size);
+    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 int main() {
@@ -217,6 +217,7 @@ int main() {
     }
 
     while (1) {
+        printf("\n");
         printf("Choose algorithm (1=FCFS,2=SSTF,3=SCAN,4=CSCAN): ");
         scanf("%d", &algorithm);
         switch (algorithm) {
