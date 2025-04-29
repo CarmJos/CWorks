@@ -198,7 +198,7 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
 
 int main() {
     int head, algorithm;
-    int n = TRACK_LENGTH;
+    const int size = TRACK_LENGTH;
 
     // 用户输入当前磁头位置及后续的磁道请求顺序（9个），依次按行输出各算法的执行情况，例如：
     // 磁头位置：100
@@ -211,28 +211,31 @@ int main() {
     printf("disk start:");
     scanf("%d", &head);
 
-    int requests[n];
-    printf("Requests tracks (%d): ", n);
-    for (int i = 0; i < n; i++) {
+    int requests[size];
+    printf("Requests tracks (%d): ", size);
+    for (int i = 0; i < size; i++) {
         scanf("%d", &requests[i]);
     }
 
     while (1) {
-        printf("\n");
         printf("Choose algorithm (0=EXIT; 1=FCFS, 2=SSTF, 3=SCAN, 4=CSCAN): ");
         scanf("%d", &algorithm);
         switch (algorithm) {
         case 1:
-            fcfs(head, requests, n);
+            fcfs(head, requests, size);
+            printf("\n");
             break;
         case 2:
-            sstf(head, requests, n);
+            sstf(head, requests, size);
+            printf("\n");
             break;
         case 3:
-            scan(head, requests, n, DISK_SIZE);
+            scan(head, requests, size, DISK_SIZE);
+            printf("\n");
             break;
         case 4:
-            cscan(head, requests, n, DISK_SIZE);
+            cscan(head, requests, size, DISK_SIZE);
+            printf("\n");
             break;
         case 0:
             exit(0);
