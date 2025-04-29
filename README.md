@@ -5,6 +5,7 @@ when learning following courses:
 - "**C Primer Plus (Developer's Library)**" 6th Edition (by _Stephen Prata_)
 - "**C Language Programming**" 4th Edition (by _Tan Haoqiang_ / _Tsinghua University Press_)
 - "**Data Structures (C Language)**" 4th Edition  (_Tsinghua University Press_)
+- "**Operating System Design Principles**" (_Science Press_)
 
 If you are also learning C language, I highly recommend you to refer to the book "**C Primer Plus**" by _Stephen Prata_.
 
