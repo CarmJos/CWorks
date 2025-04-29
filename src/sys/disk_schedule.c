@@ -27,13 +27,6 @@
 // 2.最短寻道时间优先SSTF
 // 3.扫描算法SCAN（默认方向由小至大）
 // 4.循环扫描算法CSCAN（默认方向由小至大）
-// 用户输入当前磁头位置及后续的磁道请求顺序（9个），依次按行输出各算法的执行情况，例如：
-// 磁头位置：100
-// 请求磁道：55 58 39 18 90 160 150 38 184
-// FCFS：55 58 39 18 90 160 150 38 184 | 55.3
-// SSTF：90 58 55 39 38 18 150 160 184 | 27.5
-// SCAN：150 160 184 90 58 55 39 38 18 | 27.8
-// CSCAN：150 160 184 18 38 39 55 58 90 | 35.8
 
 int abs_diff(const int a, const int b) {
     return abs(a - b);
@@ -139,7 +132,7 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
     }
 
     // Print the schedule
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size + 2; i++) {
         printf("%d ", schedule[i]);
     }
 
@@ -196,7 +189,7 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
     }
 
     // Print the schedule
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size + 1; i++) {
         printf("%d ", schedule[i]);
     }
 
@@ -206,6 +199,14 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
 int main() {
     int head, algorithm;
     int n = TRACK_LENGTH;
+
+    // 用户输入当前磁头位置及后续的磁道请求顺序（9个），依次按行输出各算法的执行情况，例如：
+    // 磁头位置：100
+    // 请求磁道：55 58 39 18 90 160 150 38 184
+    // FCFS：55 58 39 18 90 160 150 38 184 | 55.3
+    // SSTF：90 58 55 39 38 18 150 160 184 | 27.5
+    // SCAN：150 160 184 90 58 55 39 38 18 | 27.8
+    // CSCAN：150 160 184 18 38 39 55 58 90 | 35.8
 
     printf("disk start:");
     scanf("%d", &head);
@@ -218,7 +219,7 @@ int main() {
 
     while (1) {
         printf("\n");
-        printf("Choose algorithm (1=FCFS,2=SSTF,3=SCAN,4=CSCAN): ");
+        printf("Choose algorithm (0=EXIT; 1=FCFS, 2=SSTF, 3=SCAN, 4=CSCAN): ");
         scanf("%d", &algorithm);
         switch (algorithm) {
         case 1:
@@ -235,6 +236,7 @@ int main() {
             break;
         case 0:
             exit(0);
+        default: ;
         }
     }
 }
