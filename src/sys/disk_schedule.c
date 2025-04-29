@@ -48,7 +48,7 @@ void fcfs(int head, const int requests[], const int size) {
         head = requests[i];
         printf("%d ", requests[i]);
     }
-    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
+    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // SSTF（Shortest Seek Time First）调度每次选择与当前磁头位置距离最近的请求，以最小化寻道时间。
@@ -87,7 +87,7 @@ void sstf(int head, const int requests[], const int size) {
         remaining_count--;
     }
 
-    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
+    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // SCAN 算法将磁臂从一端移动至另一端，在沿途处理所有请求，然后反向继续处理，如电梯般来回移动。
@@ -143,7 +143,7 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
         printf("%d ", schedule[i]);
     }
 
-    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
+    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 // C-SCAN（Circular SCAN）与 SCAN 类似，但在到达一端后不反向，而是直接返回起始端再开始新一轮扫描。
@@ -200,7 +200,7 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
         printf("%d ", schedule[i]);
     }
 
-    printf("| cost=%d,avg=%.1f\n", cost, (float)cost / (float)size);
+    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)size);
 }
 
 int main() {
