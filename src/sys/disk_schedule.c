@@ -18,7 +18,6 @@
 #include<math.h>
 #include <stdlib.h>
 
-#define DISK_SIZE 200
 #define TRACK_LENGTH 9
 
 // 编程实现下述磁盘调度算法，并求出每种算法的平均寻道长度，并给出调度顺序；
@@ -30,6 +29,21 @@
 
 int abs_diff(const int a, const int b) {
     return abs(a - b);
+}
+
+void sort_asc(const int input[], const int size, int* output) {
+    for (int i = 0; i < size; i++) {
+        output[i] = input[i];
+    }
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (output[j] > output[j + 1]) {
+                const int temp = output[j];
+                output[j] = output[j + 1];
+                output[j + 1] = temp;
+            }
+        }
+    }
 }
 
 // 先来先服务（First-Come, First-Served, FCFS）是最简单的磁盘调度算法，按照请求到达的顺序依次处理，公平但效率低下。
@@ -57,7 +71,7 @@ void sstf(int head, const int requests[], const int size) {
 
     printf("SSTF: ");
     for (int i = 0; i < size; i++) {
-        int min_diff = 99999; // Initialize with a large value
+        int min_diff = 99999;
         int closest_index = -1;
 
         // Find the closest request
@@ -84,26 +98,12 @@ void sstf(int head, const int requests[], const int size) {
 }
 
 // SCAN 算法将磁臂从一端移动至另一端，在沿途处理所有请求，然后反向继续处理，如电梯般来回移动。
-void scan(int head, const int requests[], const int size, const int disk_size) {
+void scan(int head, const int requests[], const int size) {
     int cost = 0;
-    int schedule[size + 2]; // Add 2 for the extreme ends
+    int schedule[size];
     int sorted_requests[size];
 
-    // Copy requests to sorted array and sort it
-    for (int i = 0; i < size; i++) {
-        sorted_requests[i] = requests[i];
-    }
-
-    // Sort the requests (ascending order)
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (sorted_requests[j] > sorted_requests[j + 1]) {
-                int temp = sorted_requests[j];
-                sorted_requests[j] = sorted_requests[j + 1];
-                sorted_requests[j + 1] = temp;
-            }
-        }
-    }
+    sort_asc(requests, size, sorted_requests);
 
     int index = 0;
     while (index < size && sorted_requests[index] < head) {
@@ -121,10 +121,6 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
     }
 
     // Move to the other end (0) and service remaining requests
-    cost += abs_diff(head, 0);
-    head = 0;
-    schedule[schedule_index++] = head;
-
     for (int i = index - 1; i >= 0; i--) {
         cost += abs_diff(head, sorted_requests[i]);
         head = sorted_requests[i];
@@ -132,7 +128,7 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
     }
 
     // Print the schedule
-    for (int i = 0; i < size + 2; i++) {
+    for (int i = 0; i < size; i++) {
         printf("%d ", schedule[i]);
     }
 
@@ -140,26 +136,11 @@ void scan(int head, const int requests[], const int size, const int disk_size) {
 }
 
 // C-SCAN（Circular SCAN）与 SCAN 类似，但在到达一端后不反向，而是直接返回起始端再开始新一轮扫描。
-void cscan(int head, const int requests[], const int size, const int disk_size) {
+void cscan(int head, const int requests[], const int size) {
     int cost = 0;
-    int schedule[size + 1]; // Add 1 for the end of the disk
+    int schedule[size];
     int sorted_requests[size];
-
-    // Copy requests to sorted array and sort it
-    for (int i = 0; i < size; i++) {
-        sorted_requests[i] = requests[i];
-    }
-
-    // Sort the requests (ascending order)
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - i - 1; j++) {
-            if (sorted_requests[j] > sorted_requests[j + 1]) {
-                int temp = sorted_requests[j];
-                sorted_requests[j] = sorted_requests[j + 1];
-                sorted_requests[j + 1] = temp;
-            }
-        }
-    }
+    sort_asc(requests, size, sorted_requests);
 
     int index = 0;
     while (index < size && sorted_requests[index] < head) {
@@ -177,9 +158,8 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
     }
 
     // Move to the beginning of the disk (0) without servicing requests
-    cost += abs_diff(head, disk_size - 1);
+    cost += abs_diff(head, 0);
     head = 0;
-    schedule[schedule_index++] = head;
 
     // Service remaining requests from the beginning
     for (int i = 0; i < index; i++) {
@@ -189,11 +169,11 @@ void cscan(int head, const int requests[], const int size, const int disk_size) 
     }
 
     // Print the schedule
-    for (int i = 0; i < size + 1; i++) {
+    for (int i = 0; i < size; i++) {
         printf("%d ", schedule[i]);
     }
 
-    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)size);
+    printf("| cost=%d, avg=%.1f\n", cost, (float)cost / (float)(size + 1));
 }
 
 int main() {
@@ -230,11 +210,11 @@ int main() {
             printf("\n");
             break;
         case 3:
-            scan(head, requests, size, DISK_SIZE);
+            scan(head, requests, size);
             printf("\n");
             break;
         case 4:
-            cscan(head, requests, size, DISK_SIZE);
+            cscan(head, requests, size);
             printf("\n");
             break;
         case 0:
