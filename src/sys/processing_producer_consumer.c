@@ -14,6 +14,13 @@
 //     You should have received a copy of the GNU General Public License
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+
 // 【生产者-消费者问题】
 // 有3个生产者A、B、C和2个消费者D、E，共享一段容量为2的缓冲区。
 // 随机选取A~E进行生产或消费，通过信号量解决进程同步及互斥问题，打印进程的活动情况。
