@@ -40,16 +40,16 @@ int buffer_count = 0;
 
 void print_action(bool producer, char name) {
     printf(
-        "[%s] %c %s 1 product (current=%d)\n",
-        producer ? "Producer" : "Consumer",
-        name,
-        producer ? "+" : "-",
-        buffer_count
+            "[%s] %c %s 1 product (current=%d)\n",
+            producer ? "Producer" : "Consumer",
+            name,
+            producer ? "+" : "-",
+            buffer_count
     );
 }
 
-void* producer(void* arg) {
-    char name = *(char*)arg;
+void *producer(void *arg) {
+    char name = *(char *) arg;
     free(arg);
     while (1) {
         sem_wait(&empty);
@@ -64,8 +64,8 @@ void* producer(void* arg) {
     }
 }
 
-void* consumer(void* arg) {
-    char name = *(char*)arg;
+void *consumer(void *arg) {
+    char name = *(char *) arg;
     free(arg);
     while (1) {
         sem_wait(&full);
@@ -90,14 +90,14 @@ int main() {
 
     // 创建生产者线程
     for (int i = 0; i < PRODUCERS; i++) {
-        char* name = malloc(sizeof(char));
+        char *name = malloc(sizeof(char));
         *name = 'A' + i;
         pthread_create(&producers[i], NULL, producer, name);
     }
 
     // 创建消费者线程
     for (int i = 0; i < CONSUMERS; i++) {
-        char* name = malloc(sizeof(char));
+        char *name = malloc(sizeof(char));
         *name = 'D' + i;
         pthread_create(&consumers[i], NULL, consumer, name);
     }

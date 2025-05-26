@@ -17,8 +17,6 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define FRAME_SIZE 4
-
 /**
 *  编程实现下述页面置换算法，求出每种算法的缺页中断率，并给出主存内页面变化及页面淘汰情况：
 *   1.先进先出算法FIFO
@@ -28,27 +26,40 @@
 // 页面访问次序为7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1，进程分配的页框数为4，
 // 输出两个算法的页面置换情况及缺页中断率
 
+#define FRAME_SIZE 4 // 定义页面框的大小
+
 void print_frames(const int curr[], int length, int requesting, int dropped);
+
 void fifo(int frame_size, const int seq[], int length);
+
 void lru(int frame_size, const int seq[], int length);
 
-void main() {
+int main() {
     int length;
-    int seq[length];
+    int seq[99];
 
-
-    printf("Sequence length:");
-    scanf("%d", &length);
-
-    printf("Sequence:");
-    for (int i = 0; i < length; i++) {
-        scanf("%d", &seq[i]);
+    printf("Sequences (use '.' to stop):");
+    length = 0;
+    while (length < 99) {
+        int num;
+        if (scanf("%d", &num) != 1 || num < 0) {
+            break; // 输入结束或输入错误
+        }
+        seq[length++] = num;
     }
+
+    // 打印seq内容
+    printf("Queue: [ ");
+    for (int i = 0; i < length; i++) {
+        printf("%d ", seq[i]);
+    }
+    printf("]\n");
 
     // FIFO
     fifo(FRAME_SIZE, seq, length);
     // LRU
     lru(FRAME_SIZE, seq, length);
+    return 0;
 }
 
 
@@ -58,16 +69,14 @@ void print_frames(const int curr[], const int length, const int requesting, cons
     for (int i = 0; i < length; i++) {
         if (curr[i] >= 0) {
             printf("%d ", curr[i]);
-        }
-        else {
+        } else {
             printf("X ");
         }
     }
     printf("] DROPPED: ");
     if (dropped >= 0) {
         printf("%d\n", dropped);
-    }
-    else {
+    } else {
         printf("--\n");
     }
 }
@@ -104,7 +113,7 @@ void fifo(const int frame_size, const int seq[], const int length) {
         }
         print_frames(frames, frame_size, page, replaced_page);
     }
-    printf("[ FIFO > loss: %.2f%%\n\n", (float)page_faults / (float)length * 100);
+    printf("[ FIFO > loss: %.2f%%\n\n", (float) page_faults / (float) length * 100);
 }
 
 void lru(const int frame_size, const int seq[], const int length) {
@@ -156,5 +165,5 @@ void lru(const int frame_size, const int seq[], const int length) {
         current_time++; // 时间递增
         print_frames(frames, frame_size, page, replaced_page);
     }
-    printf("[ LRU > loss : %.2f%%\n\n", (float)page_faults / (float)length * 100);
+    printf("[ LRU > loss : %.2f%%\n\n", (float) page_faults / (float) length * 100);
 }
