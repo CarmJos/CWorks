@@ -55,9 +55,7 @@ int main() {
     }
     printf("]\n");
 
-    // FIFO
     fifo(FRAME_SIZE, seq, length);
-    // LRU
     lru(FRAME_SIZE, seq, length);
     return 0;
 }

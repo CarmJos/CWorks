@@ -30,7 +30,7 @@ typedef struct {
     int serve; //服务时间
 } Process;
 
-void fcfs(Process processes[], int size) {
+void fcfs(Process processes[], const int size) {
     int time = 0;
     int wait_time = 0;
 
@@ -45,23 +45,23 @@ void fcfs(Process processes[], int size) {
         order[i] = processes[i]; // 记录调度顺序
     }
 
-    printf("# FCFS Schedule \t| avg=%.2f \t| ", (float) wait_time / size);
+    printf("# FCFS Schedule \t| avg=%.2f \t| ", (float)wait_time / size);
     for (int i = 0; i < size; i++) {
         printf("%s ", order[i].name); // 输出调度顺序
     }
     printf("\n");
 }
 
-void round_robin(Process processes[], int size, int time_slice) {
+void round_robin(Process processes[], const int size, const int time_slice) {
     int time = 0;
     int wait_time = 0;
     int remaining[size];
-    int last_completion[size];  // 记录每个进程上次完成时间
+    int last_completion[size]; // 记录每个进程上次完成时间
     char results[200] = "";
 
     for (int i = 0; i < size; i++) {
         remaining[i] = processes[i].serve;
-        last_completion[i] = processes[i].arrive;  // 初始化为到达时间
+        last_completion[i] = processes[i].arrive; // 初始化为到达时间
     }
 
     while (1) {
@@ -73,19 +73,20 @@ void round_robin(Process processes[], int size, int time_slice) {
                 if (processes[i].arrive <= time) {
                     wait_time += time - last_completion[i];
 
-                    int exec_time = (remaining[i] > time_slice) ? time_slice : remaining[i];
+                    int exec_time = remaining[i] > time_slice ? time_slice : remaining[i];
                     time += exec_time;
                     remaining[i] -= exec_time;
-                    last_completion[i] = time;  // 更新上次完成时间
+                    last_completion[i] = time; // 更新上次完成时间
 
                     if (results[0] == '\0') {
                         snprintf(results, sizeof(results), "%s", processes[i].name);
-                    } else {
+                    }
+                    else {
                         snprintf(results + strlen(results), sizeof(results) - strlen(results), " %s",
                                  processes[i].name);
                     }
-
-                } else {
+                }
+                else {
                     time = processes[i].arrive;
                 }
             }
@@ -93,11 +94,11 @@ void round_robin(Process processes[], int size, int time_slice) {
         if (done) break;
     }
 
-    printf("# Round Robin Schedule \t| avg=%.2f \t| %s", (float) wait_time / size, results);
+    printf("# Round Robin Schedule \t| avg=%.2f \t| %s", (float)wait_time / size, results);
     printf("\n");
 }
 
-void sjf(Process processes[], int size) {
+void sjf(Process processes[], const int size) {
     int time = 0;
     int wait_time = 0;
     bool completed[size];
@@ -131,30 +132,40 @@ void sjf(Process processes[], int size) {
         order[count] = processes[min_index]; // 记录调度顺序
     }
 
-    printf("# SJF Schedule    \t| avg=%.2f \t| ", (float) wait_time / size);
+    printf("# SJF Schedule    \t| avg=%.2f \t| ", (float)wait_time / size);
     for (int i = 0; i < size; i++) {
         printf("%s ", order[i].name); // 输出调度顺序
     }
     printf("\n");
 }
 
+void sort(Process* processes, const int size) {
+    // 对于进程，按照arrive时间排序
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (processes[i].arrive > processes[j].arrive) {
+                const Process temp = processes[i];
+                processes[i] = processes[j];
+                processes[j] = temp;
+            }
+        }
+    }
+}
+
 int main() {
     Process processes[5] = {
-            {"001", 0, 3},
-            {"002", 2, 6},
-            {"003", 4, 4},
-            {"004", 6, 5},
-            {"005", 8, 2}
+        {"001", 0, 3},
+        {"002", 2, 6},
+        {"003", 4, 4},
+        {"004", 6, 5},
+        {"005", 8, 2}
     };
+    const int size = sizeof(processes) / sizeof(Process);
+    sort(processes, size); // 对进程按照到达时间排序
 
-    // 先来先服务算法
-    fcfs(processes, 5);
-
-    // 时间片轮转算法
-    round_robin(processes, 5, 3);
-
-    // 最短进程优先算法
-    sjf(processes, 5);
+    fcfs(processes, size); // 先来先服务算法
+    round_robin(processes, size, 3); // 时间片轮转算法
+    sjf(processes, size); // 最短进程优先算法
 
     return 0;
 }
