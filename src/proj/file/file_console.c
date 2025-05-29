@@ -9,119 +9,162 @@ Disk disk;
 
 bool disk_uninitialized() {
     if (disk.storage == NULL) {
-        printf("Disk not initialized. Please run 'init <tracks> <sectors>' first.\n");
-        return false;
+        printf("Disk not initialized. Please run 'init <rows> <cols>' first.\n");
+        return true;
     }
-    return true;
+    return false;
 }
 
-bool cmd_disk_init(char** args, unsigned char length) {
+bool cmd_disk_init(char **args, unsigned char length) {
     if (length != 2) return false;
 
     int tracks, sectors;
-    if (sscanf(args[1], "%d", &tracks) != 1 || sscanf(args[2], "%d", &sectors) != 1) {
-        printf("Invalid arguments. Please provide valid integers for tracks and sectors.\n");
+    if (sscanf(args[0], "%d", &tracks) != 1 || sscanf(args[1], "%d", &sectors) != 1) {
+        printf("Invalid arguments. Please provide valid integers for rows and cols.\n");
         return true;
     }
     if (tracks <= 0 || sectors <= 0) {
-        printf("Tracks and sectors must be positive integers.\n");
+        printf("rows and cols must be positive integers.\n");
         return true;
     }
 
     disk = disk_create(tracks, sectors);
+    printf("Disk initialized with %d rows and %d cols.\n", tracks, sectors);
     return true;
 }
 
-bool cmd_disk_defragment(char** args, unsigned char length) {
+bool cmd_disk_defragment(char **args, unsigned char length) {
     if (disk_uninitialized()) return true;
     disk_defragment(&disk);
     return true;
 }
 
-bool cmd_write(char** args, unsigned char length) {
+bool cmd_write(char **args, unsigned char length) {
     if (length < 2) return false;
     if (disk_uninitialized()) return true;
-    const char* filename = args[1];
-    char content[MAX_FILE_SIZE] = {0};
+    const char *filename = args[0];
+    char content[100] = {0};
 
-    for (unsigned char i = 2; i < length; i++) {
-        strncat(content, args[i], MAX_FILE_SIZE - strlen(content) - 1);
+    for (unsigned char i = 1; i < length; i++) {
+        strncat(content, args[i], 100 - strlen(content) - 1);
         if (i < length - 1) {
-            strncat(content, " ", MAX_FILE_SIZE - strlen(content) - 1);
+            strncat(content, " ", 100 - strlen(content) - 1);
         }
     }
 
-    file_write(&disk, filename, content);
+    FileMeta *wrote = file_write(&disk, filename, content);
+    if (wrote != NULL) {
+        printf(
+                "Wrote file '%s' at position [%d,%d] with size %d.\n",
+                filename, wrote->position.col, wrote->position.row, wrote->size
+        );
+    } else {
+        printf("Failed to write file '%s'. No enough space, required %llu.\n", filename, strlen(content));
+    }
+
     return true;
 }
 
-bool cmd_delete(char** args, const unsigned char length) {
+bool cmd_delete(char **args, const unsigned char length) {
     if (length < 1) return false;
     if (disk_uninitialized()) return true;
-    const char* filename = args[1];
+    const char *filename = args[0];
     if (!file_delete(&disk, filename)) {
         printf("File '%s' not found.\n", filename);
-    }
-    else {
+    } else {
         printf("Successfully deleted file '%s'.\n", filename);
-    }
-}
-
-bool cmd_cat(char** args, const unsigned char length) {
-    if (length < 1) return false;
-    if (disk_uninitialized()) return true;
-    const char* filename = args[1];
-    File* file = file_read(&disk, filename);
-    if (file == NULL) {
-        printf("File '%s' not found.\n", filename);
-    }
-    else {
-        printf("Contents of '%s':\n%s\n", filename, file->content);
     }
     return true;
 }
 
-bool cmd_ls(char** args, unsigned char length) {
+bool cmd_cat(char **args, const unsigned char length) {
+    if (length < 1) return false;
     if (disk_uninitialized()) return true;
-    FileList file_list = files(&disk);
-    if (file_list.length == 0) {
+    const char *filename = args[0];
+    File file = file_read(&disk, filename);
+    if (file.content == NULL) {
+        printf("File '%s' not found.\n", filename);
+    } else {
+        printf("Contents of '%s':\n%s\n", filename, file.content);
+    }
+    return true;
+}
+
+bool cmd_ls(char **args, unsigned char length) {
+    if (disk_uninitialized()) return true;
+    if (disk.size == 0) {
         printf("No files found on the disk.\n");
         return true;
     }
-    printf("\n");
-    printf("total: %d\n", file_list.length);
-    for (int i = 0; i < file_list.length; i++) {
-        printf("|- %d\t %s \n", file_list.files[i].size, file_list.files[i].name);
+    printf("\n[ DATA >--------------------------\n");
+    printf(" \t");
+    for (int j = 0; j < disk.cols; j++) {
+        printf("[%d]\t", j + 1);
     }
+    printf("\n");
+    for (int i = 0; i < disk.rows; i++) {
+        printf("[%d]\t", i + 1);
+        for (int j = 0; j < disk.cols; j++) {
+            printf(" %c\t", disk.storage[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n----------------------------------\n");
+    printf("strategy=%d , total: %d\n", disk.strategy, disk.size);
+    printf("# \t@pos \t@size \t@name \n", disk.strategy, disk.size);
+
+    for (int i = 0; i < disk.size; i++) {
+        FileMeta meta = disk.files[i];
+        printf("|- \t[%d,%d] \t%d \t%s \n", meta.position.col, meta.position.row, meta.size, disk.files[i].name);
+    }
+    return true;
+}
+
+bool cmd_disk_strategy(char **args, unsigned char length) {
+    if (length != 1) return false;
+    if (disk_uninitialized()) return true;
+
+    int strategy;
+    if (sscanf(args[0], "%d", &strategy) != 1 || strategy < 1 || strategy > 3) {
+        printf("Invalid strategy. Use 1 for first-fit, 2 for best-fit, or 3 for worst-fit.\n");
+        return true;
+    }
+
+    disk.strategy = (Strategy) strategy;
+    printf("Disk strategy changed to %d.\n", strategy);
     return true;
 }
 
 int main() {
     register_command(
-        cmd_disk_init, "init", "<tracks> <sectors>",
-        "Initialize disk with given size."
+            cmd_disk_init, "init", "<rows> <cols>",
+            "Initialize disk with given size."
     );
     register_command(
-        cmd_disk_defragment, "defragment", "",
-        "Run defragment once on disk."
+            cmd_disk_defragment, "defragment", "",
+            "Run defragment once on disk."
     );
     register_command(
-        cmd_write, "write", "<file> [new_content...]",
-        "Write contents to file."
+            cmd_disk_strategy, "mode", "<strategy, 1=first, 2=best, 3=worst>",
+            "Change disk space allocate strategy."
     );
     register_command(
-        cmd_delete, "del", "<file>",
-        "Delete file from the disk."
+            cmd_write, "w", "<file> [new_content...]",
+            "Write contents to file."
     );
     register_command(
-        cmd_cat, "cat", "<file>",
-        "Show file contents."
+            cmd_delete, "rm", "<file>",
+            "Delete file from the disk."
     );
     register_command(
-        cmd_ls, "ls", "",
-        "List all files in current disk."
+            cmd_cat, "cat", "<file>",
+            "Read and show file contents."
+    );
+    register_command(
+            cmd_ls, "ls", "",
+            "List all files in current disk."
     );
 
-    console_run("DISK", "disk > ");
+    console_run("DISK SIMULATION", "console > ");
     return 0;
 }

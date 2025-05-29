@@ -18,39 +18,39 @@
 #ifndef FILE_SYSTEM_H
 #define FILE_SYSTEM_H
 
-#define FILE_HEADER
-
-#define BLOCK_SIZE 32
 #define MAX_FILE_NAME_LENGTH 10
-#define MAX_FILE_SIZE 32
+#define MAX_FILE_COUNT 32
+
+#include <stdbool.h>
+#include <stdio.h>
 
 typedef enum {
     FIRST_IN, BEST_IN, WORST_IN
 } Strategy;
 
 typedef struct {
-    short row, col;
+    int row, col;
 } Position;
 
 typedef struct {
     char name[MAX_FILE_NAME_LENGTH];
     Position position;
-    int size;
+    size_t size;
 } FileMeta;
 
 typedef struct {
-    char** storage; // Storage matrix(rows, cols).
+    char **storage; // Storage matrix(rows, cols).
     int rows, cols;
 
-    FileMeta files[MAX_FILE_SIZE];
+    FileMeta *files;
     int size; // Stored file size.
 
     Strategy strategy; // Storage strategy.
 } Disk;
 
 typedef struct {
-    FileMeta* meta;
-    char* content;
+    FileMeta *meta;
+    char *content;
 } File;
 
 /**
@@ -65,21 +65,7 @@ Disk disk_create(int rows, int cols);
  *
  * @param disk The disk to defragment
  */
-void disk_defragment(Disk* disk);
-
-/**
- * Export current data to a single file (for next load)
- * @param disk The disk to export
- * @param filepath  The file path to export the disk data to
- */
-void disk_export(const Disk* disk, const char* filepath);
-
-/**
- * Import disk data from a file
- * @param disk The disk to import data into
- * @param filepath The file path to import the disk data from
- */
-void disk_import(const Disk* disk, const char* filepath);
+void disk_defragment(Disk *disk);
 
 /**
  * Write contents (could be empty) to specific file in disk.
@@ -88,7 +74,7 @@ void disk_import(const Disk* disk, const char* filepath);
  * @param content File contents
  * @return Written file pointer
  */
-FileMeta* file_write(Disk* disk, const char* filename, const char* content);
+FileMeta *file_write(Disk *disk, const char *filename, const char *content);
 
 /**
  * Find fine with specific name in disk
@@ -96,7 +82,7 @@ FileMeta* file_write(Disk* disk, const char* filename, const char* content);
  * @param filename The file name to find
  * @return FileMeta, {@link NULL} if file not exists.
  */
-FileMeta* file_find(Disk* disk, const char* filename);
+FileMeta *file_find(Disk *disk, const char *filename);
 
 /**
  * Check if file exists in disk
@@ -104,7 +90,7 @@ FileMeta* file_find(Disk* disk, const char* filename);
  * @param filename The file name
  * @return true if file exists.
  */
-inline bool file_exists(Disk* disk, const char* filename) {
+inline bool file_exists(Disk *disk, const char *filename) {
     return file_find(disk, filename) != NULL;
 }
 
@@ -114,7 +100,7 @@ inline bool file_exists(Disk* disk, const char* filename) {
  * @param filename The file name
  * @return File pointer, {@link NULL} if file not exists.
  */
-File file_read(const Disk* disk, const char* filename);
+File file_read(const Disk *disk, const char *filename);
 
 /**
  * Delete specific file from the disk.
@@ -122,7 +108,7 @@ File file_read(const Disk* disk, const char* filename);
  * @param filename  The file name
  * @return Result, false if file not exists.
  */
-bool file_delete(Disk* disk, const char* filename);
+bool file_delete(Disk *disk, const char *filename);
 
 
 #endif
