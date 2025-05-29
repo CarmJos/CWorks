@@ -22,16 +22,16 @@
 #define MAX_INPUT_LEN 256
 #define MAX_ARGS 16
 
-typedef bool (*command_func)(char** args, unsigned char length);
+typedef bool (*command_executor)(char** args, unsigned char length);
 
 typedef struct {
     char* cmd;
     char* usage;
     char* description;
-    command_func execute;
+    command_executor execute;
 } Command;
 
-int register_command(command_func func, const char* cmd,
+int register_command(command_executor func, const char* cmd,
                      const char* usage, const char* description);
 
 void console_run(char* console_name, char* prefix);

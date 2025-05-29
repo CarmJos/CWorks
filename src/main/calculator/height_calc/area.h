@@ -18,13 +18,13 @@
 #ifndef AREA_H
 #define AREA_H
 
-typedef struct point {
+typedef struct {
     const double x;
     const double y;
 } Point;
 
 // Defined a struct of circle, and named it Circle(Point(x,y), r).
-typedef struct circle {
+typedef struct {
     Point center; // center point of the circle
     double radius;
 } Circle;

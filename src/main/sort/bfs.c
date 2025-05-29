@@ -4,25 +4,25 @@
 #define V 5  // 定义顶点数
 
 // 定义一个队列结构
-struct Queue {
+typedef struct {
     int items[V];
     int front;
     int rear;
-};
+} Queue;
 
 // 初始化队列
-void initQueue(struct Queue *q) {
+void initQueue(Queue* q) {
     q->front = -1;
     q->rear = -1;
 }
 
 // 判断队列是否为空
-bool isEmpty(struct Queue *q) {
+bool isEmpty(Queue* q) {
     return q->front == -1;
 }
 
 // 入队操作
-void enqueue(struct Queue *q, int value) {
+void enqueue(Queue* q, const int value) {
     if (q->rear == V - 1)
         return; // 队列已满
     if (q->front == -1)
@@ -32,11 +32,12 @@ void enqueue(struct Queue *q, int value) {
 }
 
 // 出队操作
-int dequeue(struct Queue *q) {
+int dequeue(Queue* q) {
     int item;
     if (isEmpty(q)) {
         return -1;
-    } else {
+    }
+    else {
         item = q->items[q->front];
         q->front++;
         if (q->front > q->rear) {
@@ -47,8 +48,8 @@ int dequeue(struct Queue *q) {
 }
 
 // 广度优先搜索
-void BFS(int graph[V][V], int startVertex) {
-    struct Queue q;
+void BFS(int graph[V][V], const int startVertex) {
+    Queue q;
     initQueue(&q);
 
     bool visited[V] = {false};
@@ -72,11 +73,11 @@ void BFS(int graph[V][V], int startVertex) {
 int main() {
     // 定义一个图的邻接矩阵
     int graph[V][V] = {
-            {0, 1, 1, 0, 0},
-            {1, 0, 0, 1, 1},
-            {1, 0, 0, 1, 0},
-            {0, 1, 1, 0, 1},
-            {0, 1, 0, 1, 0}
+        {0, 1, 1, 0, 0},
+        {1, 0, 0, 1, 1},
+        {1, 0, 0, 1, 0},
+        {0, 1, 1, 0, 1},
+        {0, 1, 0, 1, 0}
     };
 
     printf("广度优先搜索 (从节点 0 开始): \n");

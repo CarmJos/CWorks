@@ -23,7 +23,7 @@
 static Command commands[MAX_COMMANDS];
 static int command_count = 0;
 
-int register_command(const command_func func, const char* cmd,
+int register_command(const command_executor func, const char* cmd,
                      const char* usage, const char* description) {
     if (command_count >= MAX_COMMANDS) {
         fprintf(stderr, "Command registry full.\n");

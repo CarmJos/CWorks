@@ -38,7 +38,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/.library)
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
 # 遍历项目src目录下所有的 .c 文件，自动添加
-file(GLOB_RECURSE files src/*.c src/*.cpp)
+file(GLOB_RECURSE files src/**.c src/**.cpp)
 foreach (file ${files}) # 遍历所有发现的文件
     get_filename_component(name ${file} NAME) # 获取文件名
     add_executable(${name} ${file}) # 添加可执行文件

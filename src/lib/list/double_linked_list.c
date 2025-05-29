@@ -19,16 +19,16 @@
 #include "stdbool.h"
 #include "malloc.h"
 
-#define  ELEMENT_TYPE int // 定义数据类型
+#define ELEMENT_TYPE int // 定义数据类型
 
 typedef struct double_linked_node {
     ELEMENT_TYPE data;
-    struct double_linked_node *prev;
-    struct double_linked_node *next;
+    struct double_linked_node* prev;
+    struct double_linked_node* next;
 } DoubleLinkedList;
 
-static DoubleLinkedList *dll_node(ELEMENT_TYPE data, DoubleLinkedList *prev, DoubleLinkedList *next) {
-    DoubleLinkedList *node = (DoubleLinkedList *) malloc(sizeof(DoubleLinkedList));
+static DoubleLinkedList* dll_node(ELEMENT_TYPE data, DoubleLinkedList* prev, DoubleLinkedList* next) {
+    DoubleLinkedList* node = (DoubleLinkedList*)malloc(sizeof(DoubleLinkedList));
     node->data = data;
     node->prev = prev;
     node->next = next;
@@ -36,26 +36,26 @@ static DoubleLinkedList *dll_node(ELEMENT_TYPE data, DoubleLinkedList *prev, Dou
 }
 
 // Create an empty list
-static DoubleLinkedList *dll_create() {
+static DoubleLinkedList* dll_create() {
     return dll_node(0, NULL, NULL);
 }
 
 // Add a new queue_node to the list's tail
-static void dll_add(DoubleLinkedList *l, ELEMENT_TYPE data) {
-    DoubleLinkedList *p = l;
+static void dll_add(DoubleLinkedList* l, ELEMENT_TYPE data) {
+    DoubleLinkedList* p = l;
     while (p->next != NULL) {
         p = p->next;
     }
-    DoubleLinkedList *new_node = dll_node(data, p, NULL);
+    DoubleLinkedList* new_node = dll_node(data, p, NULL);
     p->next = new_node;
 }
 
 // Delete a queue_node from the list
-static void dll_delete(DoubleLinkedList *l, ELEMENT_TYPE data) {
-    DoubleLinkedList *p = l;
+static void dll_delete(DoubleLinkedList* l, ELEMENT_TYPE data) {
+    DoubleLinkedList* p = l;
     while (p->next != NULL) {
         if (p->next->data == data) {
-            DoubleLinkedList *temp = p->next;
+            DoubleLinkedList* temp = p->next;
             p->next = p->next->next;
             if (p->next != NULL) {
                 p->next->prev = p;
@@ -68,12 +68,12 @@ static void dll_delete(DoubleLinkedList *l, ELEMENT_TYPE data) {
 }
 
 // Delete a queue_node from the list by index
-static void dll_delete_at(DoubleLinkedList *l, ELEMENT_TYPE index) {
-    DoubleLinkedList *p = l;
+static void dll_delete_at(DoubleLinkedList* l, ELEMENT_TYPE index) {
+    DoubleLinkedList* p = l;
     ELEMENT_TYPE i = 0;
     while (p->next != NULL) {
         if (i == index) {
-            DoubleLinkedList *temp = p->next;
+            DoubleLinkedList* temp = p->next;
             p->next = p->next->next;
             if (p->next != NULL) {
                 p->next->prev = p;
@@ -87,8 +87,8 @@ static void dll_delete_at(DoubleLinkedList *l, ELEMENT_TYPE index) {
 }
 
 // PrELEMENT the list
-static void dll_print(DoubleLinkedList *l) {
-    DoubleLinkedList *p = l->next;
+static void dll_print(DoubleLinkedList* l) {
+    DoubleLinkedList* p = l->next;
     while (p != NULL) {
         printf("%d ", p->data);
         p = p->next;
@@ -96,9 +96,9 @@ static void dll_print(DoubleLinkedList *l) {
 }
 
 // Get the index of the target, -1 if not contains
-static ELEMENT_TYPE dll_index(DoubleLinkedList *l, ELEMENT_TYPE target) {
+static ELEMENT_TYPE dll_index(DoubleLinkedList* l, ELEMENT_TYPE target) {
     ELEMENT_TYPE i = 0;
-    DoubleLinkedList *p = l->next;
+    DoubleLinkedList* p = l->next;
     while (p != NULL) {
         if (p->data == target) {
             return i;
@@ -110,18 +110,18 @@ static ELEMENT_TYPE dll_index(DoubleLinkedList *l, ELEMENT_TYPE target) {
 }
 
 // Check if the list is empty
-static bool dll_empty(DoubleLinkedList *l) {
+static bool dll_empty(DoubleLinkedList* l) {
     return l->next == NULL;
 }
 
 // Get the first queue_node's data
-static ELEMENT_TYPE dll_first(DoubleLinkedList *l) {
+static ELEMENT_TYPE dll_first(DoubleLinkedList* l) {
     return l->next->data;
 }
 
 // Get the last queue_node's data
-static ELEMENT_TYPE dll_last(DoubleLinkedList *l) {
-    DoubleLinkedList *p = l;
+static ELEMENT_TYPE dll_last(DoubleLinkedList* l) {
+    DoubleLinkedList* p = l;
     while (p->next != NULL) {
         p = p->next;
     }
@@ -129,14 +129,14 @@ static ELEMENT_TYPE dll_last(DoubleLinkedList *l) {
 }
 
 // Get the index of the target, -1 if not contains
-static bool dll_contains(DoubleLinkedList *l, ELEMENT_TYPE target) {
+static bool dll_contains(DoubleLinkedList* l, ELEMENT_TYPE target) {
     return dll_index(l, target) != -1;
 }
 
 // Get the index of the index to result, return success or not.
-static bool dll_get(DoubleLinkedList *list, ELEMENT_TYPE index, ELEMENT_TYPE *result) {
+static bool dll_get(DoubleLinkedList* list, ELEMENT_TYPE index, ELEMENT_TYPE* result) {
     ELEMENT_TYPE i = 0;
-    DoubleLinkedList *p = list->next;
+    DoubleLinkedList* p = list->next;
     while (p != NULL) {
         if (i == index - 1) {
             *result = p->data;
@@ -149,12 +149,12 @@ static bool dll_get(DoubleLinkedList *list, ELEMENT_TYPE index, ELEMENT_TYPE *re
 }
 
 // Insert the element ELEMENTo the target index.
-static void dll_insert(DoubleLinkedList *list, ELEMENT_TYPE index, ELEMENT_TYPE element) {
+static void dll_insert(DoubleLinkedList* list, ELEMENT_TYPE index, ELEMENT_TYPE element) {
     ELEMENT_TYPE i = 0;
-    DoubleLinkedList *p = list;
+    DoubleLinkedList* p = list;
     while (p->next != NULL) {
         if (i == index) {
-            DoubleLinkedList *new_node = dll_node(element, p, p->next);
+            DoubleLinkedList* new_node = dll_node(element, p, p->next);
             p->next->prev = new_node;
             p->next = new_node;
             return;
@@ -162,14 +162,14 @@ static void dll_insert(DoubleLinkedList *list, ELEMENT_TYPE index, ELEMENT_TYPE 
         p = p->next;
         i++;
     }
-    DoubleLinkedList *new_node = dll_node(element, p, NULL);
+    DoubleLinkedList* new_node = dll_node(element, p, NULL);
     p->next = new_node;
 }
 
 // Get the size of the list
-static ELEMENT_TYPE dll_size(DoubleLinkedList *l) {
+static ELEMENT_TYPE dll_size(DoubleLinkedList* l) {
     ELEMENT_TYPE size = 0;
-    DoubleLinkedList *p = l->next;
+    DoubleLinkedList* p = l->next;
     while (p != NULL) {
         size++;
         p = p->next;
@@ -178,10 +178,10 @@ static ELEMENT_TYPE dll_size(DoubleLinkedList *l) {
 }
 
 // Clear the list
-static void dll_clear(DoubleLinkedList *l) {
-    DoubleLinkedList *p = l->next;
+static void dll_clear(DoubleLinkedList* l) {
+    DoubleLinkedList* p = l->next;
     while (p != NULL) {
-        DoubleLinkedList *temp = p;
+        DoubleLinkedList* temp = p;
         p = p->next;
         free(temp);
     }
@@ -189,7 +189,7 @@ static void dll_clear(DoubleLinkedList *l) {
 }
 
 // Destroy the list
-static void dll_destroy(DoubleLinkedList *l) {
+static void dll_destroy(DoubleLinkedList* l) {
     dll_clear(l);
     free(l);
 }
