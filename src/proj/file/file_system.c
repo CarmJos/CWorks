@@ -122,9 +122,6 @@ Position _disk_allocate(Disk* disk, int size) {
     }
 
     // 依照 disk 的存储策略，寻找合适的空闲位置。
-
-
-
 }
 
 
@@ -137,54 +134,11 @@ FileMeta* file_write(Disk* disk, const char* filename, const char* content) {
     // 检查文件是否已存在
     FileMeta* exists = file_find(disk, filename);
     if (exists) {
-        // 如果文件已存在，更新内容
-        strncpy(exists->name, filename, MAX_FILE_NAME_LENGTH);
-        exists->size = strlen(content);
-        exists->position.row = exists->position.col = 0; // 重置内容位置
-        char* content_block = disk->storage[exists->content_x] + exists->content_y * BLOCK_SIZE;
-        content_block[0] = 1; // 标记为有效内容
-        strncpy(content_block + 1, content, BLOCK_SIZE - 1); // 写入内容
-        return exists;
+        // 如果文件已存在
+        
     }
 }
 
-File file_read(const Disk* disk, const char* filename) {
-    for (int x = 0; x < disk->rows; x++) {
-        for (int y = 0; y < disk->cols; y++) {
-            FileMeta* meta = (FileMeta*)(disk->storage[x] + y * BLOCK_SIZE);
-            if (meta->name[0] != 0 && strcmp(meta->name, filename) == 0) {
-                char* content = disk->storage[meta->content_x] + meta->content_y * BLOCK_SIZE;
-                File* file = malloc(sizeof(File));
-                strncpy(file->name, filename, MAX_FILE_NAME_LENGTH);
-                file->size = meta->size;
-                file->content = str_ndup(content + 1, meta->size); // 跳过首字节标记
-                return file;
-            }
-        }
-    }
-    return NULL;
-}
+File file_read(const Disk* disk, const char* filename) {}
 
-bool file_delete(Disk* disk, const char* filename) {
-    for (int x = 0; x < disk->rows; x++) {
-        for (int y = 0; y < disk->cols; y++) {
-            const FileMeta* meta = (FileMeta*)(disk->storage[x] + y * BLOCK_SIZE);
-            if (strcmp(meta->name, filename) == 0) {
-                memset(disk->storage[x] + y * BLOCK_SIZE, 0, BLOCK_SIZE);
-                memset(disk->storage[meta->content_x] + meta->content_y * BLOCK_SIZE, 0, BLOCK_SIZE);
-                disk->free_blocks += 2;
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-FileList files(Disk* disk) {
-    FileList list = {.files = NULL, .length = 0};
-    if (!disk) return list;
-    list.files = malloc(disk->free_blocks * sizeof(File));
-    if (!list.files) return list; // 分配失败
-
-    return list;
-}
+bool file_delete(Disk* disk, const char* filename) {}
