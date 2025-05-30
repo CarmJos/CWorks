@@ -82,7 +82,7 @@ FileMeta *file_write(Disk *disk, const char *filename, const char *content);
  * @param filename The file name to find
  * @return FileMeta, {@link NULL} if file not exists.
  */
-FileMeta *file_find(Disk *disk, const char *filename);
+FileMeta *file_find(const Disk *disk, const char *filename);
 
 /**
  * Check if file exists in disk

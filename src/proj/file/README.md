@@ -28,7 +28,7 @@ help
 init <rows> <cols>
 
 #  修改磁盘分配策略
-mode <strategy, 1=first, 2=best, 3=worst>
+mode <strategy, 0=first, 1=best, 2=worst>
 
 # 写入文件内容到磁盘
 w <file> [new_content...]
@@ -91,7 +91,6 @@ defrag
 5. **磁盘维护**
    - 碎片整理：将文件重新排列，合并空闲空间
    - 磁盘统计：显示存储使用情况
-   - 导入/导出：支持磁盘状态的持久化
 
 ### 控制台界面（file_console.c）
 1. **用户交互**
