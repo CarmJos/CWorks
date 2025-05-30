@@ -25,7 +25,7 @@ Disk disk_create(const int rows, const int cols) {
     Disk disk = {0}; // 初始化所有字段为0
     disk.rows = rows;
     disk.cols = cols;
-    disk.size = 0;
+    disk.count = 0;
     disk.strategy = FIRST_IN;
 
     disk.storage = (char**)malloc(rows * sizeof(char*));
@@ -162,7 +162,7 @@ Position disk_allocate(const Disk* disk, const size_t required) {
 FileMeta* file_find(const Disk* disk, const char* filename) {
     if (disk == NULL || filename == NULL) return NULL;
 
-    for (int i = 0; i < disk->size; i++) {
+    for (int i = 0; i < disk->count; i++) {
         if (strcmp(disk->files[i].name, filename) == 0) {
             return &disk->files[i];
         }
@@ -175,7 +175,7 @@ FileMeta* file_write(Disk* disk, const char* filename, const char* content) {
     if (disk == NULL || disk->storage == NULL || filename == NULL || content == NULL) {
         return NULL; // 未初始化的磁盘
     }
-    if (disk->size >= MAX_FILE_COUNT) return NULL; // 文件数量超出限制
+    if (disk->count >= MAX_FILE_COUNT) return NULL; // 文件数量超出限制
 
     // 计算所需空间
     size_t content_len = strlen(content);
@@ -205,10 +205,10 @@ FileMeta* file_write(Disk* disk, const char* filename, const char* content) {
     disk_write(disk, pos.row, pos.col, content, content_len);
 
     // 添加到文件列表
-    disk->files[disk->size] = new_file;
-    disk->size++;
+    disk->files[disk->count] = new_file;
+    disk->count++;
 
-    return &disk->files[disk->size - 1];
+    return &disk->files[disk->count - 1];
 }
 
 File file_read(const Disk* disk, const char* filename) {
@@ -261,10 +261,10 @@ bool file_delete(Disk* disk, const char* filename) {
 
     // 从文件列表中移除
     int index = meta - disk->files;
-    for (int i = index; i < disk->size - 1; i++) {
+    for (int i = index; i < disk->count - 1; i++) {
         disk->files[i] = disk->files[i + 1];
     }
-    disk->size--;
+    disk->count--;
 
     return true;
 }
@@ -275,11 +275,11 @@ void disk_defragment(Disk* disk) {
     }
 
     // 临时存储所有文件内容
-    char** temp_contents = malloc(disk->size * sizeof(char*));
+    char** temp_contents = malloc(disk->count * sizeof(char*));
     if (temp_contents == NULL) return;
 
     // 保存所有文件内容
-    for (int i = 0; i < disk->size; i++) {
+    for (int i = 0; i < disk->count; i++) {
         const FileMeta* meta = &disk->files[i];
         temp_contents[i] = (char*)malloc(meta->size);
 
@@ -309,7 +309,7 @@ void disk_defragment(Disk* disk) {
     // 从头开始重新写入所有文件
     int current_pos = 0;
 
-    for (int i = 0; i < disk->size; i++) {
+    for (int i = 0; i < disk->count; i++) {
         FileMeta* meta = &disk->files[i];
 
         // 更新文件位置
@@ -324,7 +324,7 @@ void disk_defragment(Disk* disk) {
     }
 
     // 清理临时存储
-    for (int i = 0; i < disk->size; i++) {
+    for (int i = 0; i < disk->count; i++) {
         free(temp_contents[i]);
     }
     free(temp_contents);

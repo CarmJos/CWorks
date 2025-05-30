@@ -39,18 +39,18 @@ typedef struct {
 } FileMeta;
 
 typedef struct {
-    char **storage; // Storage matrix(rows, cols).
+    char** storage; // Storage matrix(rows, cols).
     int rows, cols;
 
-    FileMeta *files;
-    int size; // Stored file size.
+    FileMeta* files;
+    int count; // Stored file size.
 
     Strategy strategy; // Storage strategy.
 } Disk;
 
 typedef struct {
-    FileMeta *meta;
-    char *content;
+    FileMeta* meta;
+    char* content;
 } File;
 
 /**
@@ -65,7 +65,7 @@ Disk disk_create(int rows, int cols);
  *
  * @param disk The disk to defragment
  */
-void disk_defragment(Disk *disk);
+void disk_defragment(Disk* disk);
 
 /**
  * Write contents (could be empty) to specific file in disk.
@@ -74,7 +74,7 @@ void disk_defragment(Disk *disk);
  * @param content File contents
  * @return Written file pointer
  */
-FileMeta *file_write(Disk *disk, const char *filename, const char *content);
+FileMeta* file_write(Disk* disk, const char* filename, const char* content);
 
 /**
  * Find fine with specific name in disk
@@ -82,7 +82,7 @@ FileMeta *file_write(Disk *disk, const char *filename, const char *content);
  * @param filename The file name to find
  * @return FileMeta, {@link NULL} if file not exists.
  */
-FileMeta *file_find(const Disk *disk, const char *filename);
+FileMeta* file_find(const Disk* disk, const char* filename);
 
 /**
  * Check if file exists in disk
@@ -90,7 +90,7 @@ FileMeta *file_find(const Disk *disk, const char *filename);
  * @param filename The file name
  * @return true if file exists.
  */
-inline bool file_exists(Disk *disk, const char *filename) {
+inline bool file_exists(Disk* disk, const char* filename) {
     return file_find(disk, filename) != NULL;
 }
 
@@ -100,7 +100,7 @@ inline bool file_exists(Disk *disk, const char *filename) {
  * @param filename The file name
  * @return File pointer, {@link NULL} if file not exists.
  */
-File file_read(const Disk *disk, const char *filename);
+File file_read(const Disk* disk, const char* filename);
 
 /**
  * Delete specific file from the disk.
@@ -108,7 +108,7 @@ File file_read(const Disk *disk, const char *filename);
  * @param filename  The file name
  * @return Result, false if file not exists.
  */
-bool file_delete(Disk *disk, const char *filename);
+bool file_delete(Disk* disk, const char* filename);
 
 
 #endif

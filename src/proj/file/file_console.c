@@ -7,6 +7,18 @@
 
 Disk disk;
 
+void sort(FileMeta* files, const int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (files[j].size < files[j + 1].size) {
+                FileMeta temp = files[j];
+                files[j] = files[j + 1];
+                files[j + 1] = temp;
+            }
+        }
+    }
+}
+
 bool disk_uninitialized() {
     if (disk.storage == NULL) {
         printf("Disk not initialized. Please run 'init <rows> <cols>' first.\n");
@@ -114,7 +126,7 @@ bool cmd_cat(char** args, const unsigned char length) {
 
 bool cmd_ls(char** args, unsigned char length) {
     if (disk_uninitialized()) return true;
-    if (disk.size == 0) {
+    if (disk.count == 0) {
         printf("No files found on the disk.\n");
         return true;
     }
@@ -138,10 +150,12 @@ bool cmd_ls(char** args, unsigned char length) {
         printf("\n");
     }
     printf("\n----------------------------------\n");
-    printf("strategy=%d , total: %d\n", disk.strategy, disk.size);
+    printf("strategy=%d , total: %d\n", disk.strategy, disk.count);
     printf("# \t@pos \t@size \t@name \n");
 
-    for (int i = 0; i < disk.size; i++) {
+
+    sort(disk.files, disk.count);
+    for (int i = 0; i < disk.count; i++) {
         FileMeta meta = disk.files[i];
         printf(
             "|- \t[%d,%d] \t%llu \t%s \n",
