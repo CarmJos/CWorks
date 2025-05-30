@@ -62,19 +62,13 @@ Position allocate_first(char** storage, const int rows, const int cols, const si
         int row = i / cols;
         int col = i % cols;
 
-        // 检查从此位置开始是否有足够的连续空间
         int available = 0;
         for (int j = i; j < total_size && available < required; j++) {
-            int curr_row = j / cols;
-            int curr_col = j % cols;
-            if (storage[curr_row][curr_col] == '\0') {
-                available++;
-            }
-            else {
+            if (storage[j / cols][j % cols] != '\0') {
                 break;
             }
+            available++;
         }
-
         if (available >= required) {
             pos.row = row;
             pos.col = col;
@@ -98,9 +92,8 @@ Position allocate_best(char** storage, const int rows, const int cols, const siz
         if (storage[row][col] == '\0') {
             int available = 0;
             for (int j = i; j < total_size; j++) {
-                if (storage[j / cols][j % cols] != '\0') {
-                    i = j; // 跳过已占用的空间
-                    printf()
+                if (storage[j / cols][j % cols] != '\0' || j + 1 == total_size) {
+                    i = j;
                     break;
                 }
                 available++;
@@ -123,21 +116,19 @@ Position allocate_worst(char** storage, const int rows, const int cols, const si
     Position pos = {-1, -1};
     int worst_size = 0;
 
-    for (int i = 0; i < total_size; i++) {
+    int i = 0;
+    while (i < total_size) {
         int row = i / cols;
         int col = i % cols;
 
         if (storage[row][col] == '\0') {
             int available = 0;
             for (int j = i; j < total_size; j++) {
-                int curr_row = j / cols;
-                int curr_col = j % cols;
-                if (storage[curr_row][curr_col] == '\0') {
-                    available++;
-                }
-                else {
+                if (storage[j / cols][j % cols] != '\0' || j + 1 == total_size) {
+                    i = j;
                     break;
                 }
+                available++;
             }
 
             if (available >= required && available > worst_size) {
@@ -146,6 +137,8 @@ Position allocate_worst(char** storage, const int rows, const int cols, const si
                 pos.col = col;
             }
         }
+
+        i++;
     }
     return pos;
 }

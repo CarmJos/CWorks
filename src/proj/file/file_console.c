@@ -197,8 +197,7 @@ int main() {
         "List all files in current disk."
     );
 
-    // 预先初始化
-    disk = disk_create(10, 10);
+    disk = disk_create(10, 10); // 预先初始化
 
     console_run("DISK SIMULATION", "console > ");
     return 0;
