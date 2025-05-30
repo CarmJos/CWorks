@@ -1,3 +1,6 @@
 [submodule "src/proj/file"]
 	path = src/proj/file
 	url = https://github.com/CarmJos/filesys
+[submodule "src/proj/calculator"]
+	path = src/proj/calculator
+	url = https://github.com/CarmJos/calculator
