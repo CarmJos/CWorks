@@ -1,11 +1,16 @@
+<div align=center>
+<img src=".doc/banner.png" alt="Project Banner" />
 
-<img src=".doc/banner.png" alt="Project Banner" align="middle">
+[![License](https://img.shields.io/github/license/CarmJos/configured)](https://www.gnu.org/licenses/lgpl-3.0.html)
+![CodeSize](https://img.shields.io/github/languages/code-size/CarmJos/CWorks)
 
+</div>
 
 # CWorks (Homework & Notes)
 
 This project is used to store and display my personal works and results
 when learning following courses:
+
 - "**C Primer Plus (Developer's Library)**" 6th Edition (by _Stephen Prata_)
 - "**C Language Programming**" 4th Edition (by _Tan Haoqiang_ / _Tsinghua University Press_)
 - "**Data Structures (C Language)**" 4th Edition  (_Tsinghua University Press_)
@@ -13,7 +18,7 @@ when learning following courses:
 
 If you are also learning C language, I highly recommend you to refer to the book "**C Primer Plus**" by _Stephen Prata_.
 
-Any questions or suggestions are welcome to contact me 
+Any questions or suggestions are welcome to contact me
 via email [**carm@carm.cc**](mailto:carm@carm.cc) or [issues](https://github.com/CarmJos/CWorks/issues/new) .
 
 ## General documentation
