@@ -1,3 +1,7 @@
+
+<img src=".doc/banner.png" alt="Project Banner" align="middle">
+
+
 # CWorks (Homework & Notes)
 
 This project is used to store and display my personal works and results
