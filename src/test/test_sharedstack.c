@@ -29,7 +29,7 @@
 //  6）S2连续出栈两次，会有栈空提示
 
 
-#include "../stack/shared_stack.c"
+#include "../lib/stack/shared_stack.c"
 
 int main() {
 

@@ -15,7 +15,7 @@
 //     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <stdbool.h>
-#include "../main/stack/linked_stack_string.c"
+#include "../lib/stack/linked_stack_string.c"
 
 // 使用栈实现前后括号匹配（支持括号、中括号、大括号）
 static bool matching(const char* input) {

@@ -30,7 +30,7 @@
  *   6）队列出队5个元素，再次出队一个元素
  */
 
-#include "../queue/stack_queue.c"
+#include "../lib/queue/stack_queue.c"
 
 void sq_print(StackQueue *q) {
     printf("S1: [");

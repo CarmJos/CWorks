@@ -28,7 +28,7 @@
  *   4） 再次压入元素4，通过调用getmin打印最小值
  */
 
-#include "../stack/min_value_stack.c"
+#include "../lib/stack/min_value_stack.c"
 
 int main() {
 
